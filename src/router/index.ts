@@ -1,9 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '../views/LoginView.vue'
-import MainLayout from '../layouts/MainLayout.vue'
-import HomeView from '@/views/HomeView.vue'
-
-const checkLogin = () => (to, from, next) => {}
+import { createRouter, createWebHistory } from 'vue-router';
+import LoginView from '../views/LoginView.vue';
+import MainLayout from '../layouts/MainLayout.vue';
+import HomeView from '@/views/HomeView.vue';
+import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,9 +21,17 @@ const router = createRouter({
           path: '/',
           component: HomeView
         }
-      ]
+      ],
+      beforeEnter: (to, from, next) => {
+        const login = useLoginStore();
+        if (login.isLogin) {
+          next();
+        } else {
+          next('/');
+        }
+      }
     }
   ]
-})
+});
 
-export default router
+export default router;
