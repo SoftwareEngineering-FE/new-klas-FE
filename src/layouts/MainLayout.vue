@@ -1,15 +1,19 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const leftDrawerOpen = ref(false);
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+};
+</script>
+
 <template>
   <q-layout view="hHh LpR fFf">
-    <q-header bordered class="bg-primary text-white">
+    <q-header bordered class="bg-main text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          Title
-        </q-toolbar-title>
+        <q-img class="logo" src="/svg/nemo-logo.svg" width="140px" />
       </q-toolbar>
     </q-header>
 
@@ -22,12 +26,8 @@
     </q-page-container>
   </q-layout>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const leftDrawerOpen = ref(false)
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+<style scoped lang="scss">
+.logo {
+  margin: 0 auto;
 }
-</script>
+</style>
