@@ -53,7 +53,7 @@ const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학�
             dense
           />
         </div>
-        <div class="table q-mt-sm ">
+        <div class="table q-mt-sm">
           <div class="row font-size-16">
             <div class="first td"></div>
             <div class="col td flex flex-center">월</div>
@@ -67,7 +67,7 @@ const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학�
             <div class="first td flex flex-center">0</div>
             <div class="col td"></div>
             <div class="col td"></div>
-            <div class="col td"><div class="class-2">asd</div></div>
+            <div class="col td"><div class="class-2" v-ripple>asd</div></div>
             <div class="col td"></div>
             <div class="col td"></div>
             <div class="col td"></div>
@@ -122,28 +122,26 @@ const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학�
   border-top: 1px solid #d1d1d1;
   height: 60px;
 }
-.class-1 {
+@mixin class {
+  cursor: pointer;
   background-color: rgb(240, 240, 136);
   position: absolute;
-  height: 59px;
   width: 100%;
   z-index: 1;
+}
+.class-1 {
+  @include class;
+  height: 59px;
 }
 .class-2 {
-  background-color: rgb(240, 240, 136);
-  position: absolute;
+  @include class;
   height: 119px;
-  width: 100%;
-  z-index: 1;
 }
 .class-3 {
-  background-color: rgb(240, 240, 136);
-  position: absolute;
+  @include class;
   height: 179px;
-  width: 100%;
-  z-index: 1;
 }
-.font-size-16{
-    font-size: 16px;
+.font-size-16 {
+  font-size: 16px;
 }
 </style>

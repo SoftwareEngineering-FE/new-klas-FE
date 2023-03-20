@@ -27,6 +27,7 @@ const router = createRouter({
       children: [
         {
           path: '',
+          name: 'home',
           component: HomeViewStu,
           props: true
         }
