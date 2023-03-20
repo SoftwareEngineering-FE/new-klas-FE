@@ -3,10 +3,15 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const goSignup = () => {
-  router.replace('/signup');
+  router.push('/signup');
 };
 const goHome = () => {
-  router.replace('/home');
+  //로그인 데이터 확인
+
+  //if (student)
+  router.push('/student');
+  //else (professor)
+  // router.push('/professor');
 };
 const inputId = ref('');
 const inputPw = ref('');

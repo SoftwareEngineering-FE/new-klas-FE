@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '../views/LoginView.vue';
-import MainLayout from '../layouts/MainLayout.vue';
-import HomeView from '@/views/HomeView.vue';
+import MainLayoutStu from '../layouts/MainLayoutStu.vue';
+import MainLayoutPro from '../layouts/MainLayoutPro.vue';
+import HomeViewStu from '@/views/student/HomeViewStu.vue';
+import HomeViewPro from '@/views/professor/HomeViewPro.vue';
 import SignupView from '@/views/SignupView.vue';
 import { useLoginStore } from '../stores/login';
 
@@ -19,13 +21,35 @@ const router = createRouter({
       component: SignupView
     },
     {
-      path: '/home',
-      name: 'home',
-      component: MainLayout,
+      path: '/student',
+      name: 'student',
+      component: MainLayoutStu,
+      children: [
+        {
+          path: '',
+          component: HomeViewStu,
+          props: true
+        }
+      ],
+      beforeEnter: (to, from, next) => {
+        const login = useLoginStore();
+        if (login.isLogin) {
+          //교수, 학생 별로 나눠서
+          next();
+        } else {
+          next('/');
+        }
+      }
+    },
+    {
+      path: '/professor',
+      name: 'professor',
+      component: MainLayoutPro,
       children: [
         {
           path: '/',
-          component: HomeView
+          component: HomeViewPro,
+          props: true
         }
       ],
       beforeEnter: (to, from, next) => {
