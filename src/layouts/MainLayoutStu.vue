@@ -17,18 +17,31 @@ const toggleLeftDrawer = () => {
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <q-list bordered separator>
-        <q-item clickable v-ripple to="/student">
+    <q-drawer show-if-above v-model="leftDrawerOpen" :width="220" side="left" bordered>
+      <q-list separator>
+        <q-item clickable v-ripple to="/student" class="text-black">
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
           <q-item-section>홈</q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/student">
+
+        <q-item clickable v-ripple to="/student" class="text-black">
+          <q-item-section avatar>
+            <q-icon name="dns" />
+          </q-item-section>
           <q-item-section>강의 종합</q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/student">
+        <q-item clickable v-ripple to="/student" class="text-black">
+          <q-item-section avatar>
+            <q-icon name="analytics" />
+          </q-item-section>
           <q-item-section>성적 결과</q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/student">
+        <q-item clickable v-ripple to="/student" class="text-black">
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
           <q-item-section>수강 신청</q-item-section>
         </q-item>
       </q-list>
