@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '../views/LoginView.vue';
+import SignupView from '../views/SignupView.vue';
 import MainLayoutStu from '../layouts/MainLayoutStu.vue';
 import MainLayoutPro from '../layouts/MainLayoutPro.vue';
-import HomeViewStu from '@/views/student/HomeViewStu.vue';
-import HomeViewPro from '@/views/professor/HomeViewPro.vue';
-import SignupView from '@/views/SignupView.vue';
+import HomeViewStu from '../views/student/HomeViewStu.vue';
+import HomeViewPro from '../views/professor/HomeViewPro.vue';
+import ClassViewStu from '../views/student/ClassViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -29,6 +30,11 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: HomeViewStu,
+          props: true
+        },
+        {
+          path:'class',
+          component:ClassViewStu,
           props: true
         }
       ],

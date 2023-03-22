@@ -124,6 +124,7 @@ const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학�
 }
 @mixin class {
   cursor: pointer;
+  font-size: 12px;
   background-color: rgb(240, 240, 136);
   position: absolute;
   width: 100%;
