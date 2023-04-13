@@ -18,7 +18,7 @@ const goHome = () => {
   // }
   //else if (admin)
   //login.setUserType('admin');
-  router.push('/admin');
+  router.push('/student');
   //else (professor)
   //login.setUserType('professor');
   // router.push('/professor');
