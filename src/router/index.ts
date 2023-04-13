@@ -3,8 +3,10 @@ import LoginView from '../views/LoginView.vue';
 import SignupView from '../views/SignupView.vue';
 import MainLayoutStu from '../layouts/MainLayoutStu.vue';
 import MainLayoutPro from '../layouts/MainLayoutPro.vue';
+import MainLayoutAdm from '../layouts/MainLayoutAdm.vue';
 import HomeViewStu from '../views/student/HomeViewStu.vue';
 import HomeViewPro from '../views/professor/HomeViewPro.vue';
+import HomeViewAdm from '../views/admin/HomeViewAdm.vue';
 import ClassViewStu from '../views/student/ClassViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
@@ -28,20 +30,18 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'home',
           component: HomeViewStu,
           props: true
         },
         {
-          path:'class',
-          component:ClassViewStu,
+          path: 'class',
+          component: ClassViewStu,
           props: true
         }
       ],
       beforeEnter: (to, from, next) => {
         const login = useLoginStore();
         if (login.isLogin) {
-          //교수, 학생 별로 나눠서
           next();
         } else {
           next('/');
@@ -54,7 +54,12 @@ const router = createRouter({
       component: MainLayoutPro,
       children: [
         {
-          path: '/',
+          path: '',
+          component: HomeViewPro,
+          props: true
+        },
+        {
+          path: 'class',
           component: HomeViewPro,
           props: true
         }
@@ -62,7 +67,29 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const login = useLoginStore();
         if (login.isLogin) {
-          //교수, 학생 별로 나눠서
+          next();
+        } else {
+          next('/');
+        }
+      }
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: MainLayoutAdm,
+      children: [
+        {
+          path: '',
+          component: HomeViewAdm
+        },
+        {
+          path: 'users',
+          component: HomeViewAdm
+        }
+      ],
+      beforeEnter: (to, from, next) => {
+        const login = useLoginStore();
+        if (login.isLogin) {
           next();
         } else {
           next('/');

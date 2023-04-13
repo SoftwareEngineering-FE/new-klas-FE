@@ -1,16 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useLoginStore } from '../stores/login';
+
 const router = useRouter();
 const goSignup = () => {
   router.push('/signup');
 };
 const goHome = () => {
   //로그인 데이터 확인
+  const login = useLoginStore();
+  login.setLogin(true);
 
-  //if (student)
-  router.push('/student');
+  // if (student) {
+  //   login.setUserType('student');
+  //   router.push('/student');
+  // }
+  //else if (admin)
+  //login.setUserType('admin');
+  router.push('/admin');
   //else (professor)
+  //login.setUserType('professor');
   // router.push('/professor');
 };
 const inputId = ref('');

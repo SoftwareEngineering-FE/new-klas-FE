@@ -19,18 +19,18 @@ const toggleLeftDrawer = () => {
 
     <q-drawer show-if-above v-model="leftDrawerOpen" :width="210" side="left" bordered>
       <q-list separator>
-        <q-item clickable v-ripple to="/professor" class="text-black">
+        <q-item clickable v-ripple to="/admin" class="text-black">
           <q-item-section avatar>
-            <q-icon name="home" />
+            <q-icon name="rule" />
           </q-item-section>
-          <q-item-section>홈</q-item-section>
+          <q-item-section>강의 관리</q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple to="/professor/class" class="text-black">
+        <q-item clickable v-ripple to="/admin/users" class="text-black">
           <q-item-section avatar>
-            <q-icon name="dns" />
+            <q-icon name="supervisor_account" />
           </q-item-section>
-          <q-item-section>담당 강의</q-item-section>
+          <q-item-section>유저 관리</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>
