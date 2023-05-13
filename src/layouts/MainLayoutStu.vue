@@ -32,7 +32,7 @@ const toggleLeftDrawer = () => {
           </q-item-section>
           <q-item-section>강의 종합</q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/student" class="text-black">
+        <q-item clickable v-ripple to="/student/score" class="text-black">
           <q-item-section avatar>
             <q-icon name="analytics" />
           </q-item-section>
@@ -56,7 +56,7 @@ const toggleLeftDrawer = () => {
 .logo {
   margin: 0 auto;
 }
-.absolute{
+.absolute {
   position: absolute;
 }
 </style>

@@ -8,6 +8,7 @@ import HomeViewStu from '../views/student/HomeViewStu.vue';
 import HomeViewPro from '../views/professor/HomeViewPro.vue';
 import HomeViewAdm from '../views/admin/HomeViewAdm.vue';
 import ClassViewStu from '../views/student/ClassViewStu.vue';
+import ScoreViewStu from '../views/student/ScoreViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -36,6 +37,11 @@ const router = createRouter({
         {
           path: 'class',
           component: ClassViewStu,
+          props: true
+        },
+        {
+          path: 'score',
+          component: ScoreViewStu,
           props: true
         }
       ],
