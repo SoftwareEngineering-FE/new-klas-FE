@@ -13,14 +13,11 @@ const goHome = () => {
   login.setLogin(true);
 
   // if (student) {
-  //   login.setUserType('student');
-  //   router.push('/student');
-  // }
-  //else if (admin)
-  //login.setUserType('admin');
   router.push('/student');
-  //else (professor)
-  //login.setUserType('professor');
+  // }
+  // else if (admin)
+  // router.push('/admin');
+  // else (professor)
   // router.push('/professor');
 };
 const inputId = ref('');

@@ -28,7 +28,7 @@ const toggleLeftDrawer = () => {
 
         <q-item clickable v-ripple to="/admin/users" class="text-black">
           <q-item-section avatar>
-            <q-icon name="supervisor_account" />
+            <q-icon name="groups" />
           </q-item-section>
           <q-item-section>유저 관리</q-item-section>
         </q-item>
