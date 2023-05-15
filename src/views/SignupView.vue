@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const inputId = ref('');
 const inputPw = ref('');
+const inputName = ref('');
+const inputBirth = ref('');
 const inputPwCheck = ref('');
 const inputPhone = ref('');
 const inputEmail = ref('');
@@ -16,6 +18,30 @@ const goLogin = () => {
     <q-img src="/svg/logo.svg" width="140px" />
     <q-input
       class="q-mt-md"
+      color="kbrown"
+      :dense="true"
+      v-model="inputName"
+      label="이름 :"
+      label-color="white"
+      :input-style="{
+        color: 'white'
+      }"
+    />
+    <q-input
+      class="q-mt-xs"
+      color="kbrown"
+      :dense="true"
+      v-model="inputBirth"
+      label="생년월일 :"
+      label-color="white"
+      placeholder="숫자 8자리"
+      mask="########"
+      :input-style="{
+        color: 'white'
+      }"
+    />
+    <q-input
+      class="q-mt-xs"
       color="kbrown"
       :dense="true"
       v-model="inputId"
@@ -38,7 +64,8 @@ const goLogin = () => {
       :input-style="{
         color: 'white'
       }"
-    /><q-input
+    />
+    <q-input
       class="q-mt-xs"
       color="kbrown"
       :dense="true"

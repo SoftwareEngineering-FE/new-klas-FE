@@ -5,7 +5,7 @@ import { ref } from 'vue';
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="title">최근 공지사항</div>
+        <div class="title">각 학기별 성적</div>
         <q-separator color="#d1d1d1" />
       </div>
       <div class="board column items-center q-mt-md"></div>
