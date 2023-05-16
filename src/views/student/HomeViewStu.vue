@@ -2,46 +2,38 @@
 import { ref } from 'vue';
 const selectedSemester = ref('2023년도 1학기');
 const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
+const notices = [
+  {
+    title: '오늘 휴강',
+    name: '소프트웨어공학',
+    time: '2023-05-12',
+    id: 1
+  },
+  {
+    title: '내일도 휴강',
+    name: '소프트웨어공학',
+    time: '2023-05-13',
+    id: 2
+  }
+];
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
         <div class="title">최근 공지사항</div>
-        <q-separator color="#d1d1d1" />
-        <q-list dense padding class="rounded-borders">
-          <q-item clickable v-ripple>
-            <q-item-section> 휴강 공지 </q-item-section>
-            <q-item-section
-              ><div class="row justify-around items-center">
-                <div>강의명</div>
-                <div>날짜</div>
-              </div>
-            </q-item-section>
-          </q-item>
-
-          <q-separator color="#d1d1d1" inset />
-          <q-item clickable v-ripple>
-            <q-item-section> 제목 </q-item-section>
-            <q-item-section
-              ><div class="row justify-around items-center">
-                <div>강의명</div>
-                <div>날짜</div>
-              </div>
-            </q-item-section>
-          </q-item>
-
-          <q-separator color="#d1d1d1" inset />
-          <q-item clickable v-ripple>
-            <q-item-section> 제목 </q-item-section>
-            <q-item-section
-              ><div class="row justify-around items-center">
-                <div>강의명</div>
-                <div>날짜</div>
-              </div>
-            </q-item-section>
-          </q-item>
-        </q-list>
+        <q-separator color="#d1d1d1" size="2" />
+            <q-list dense padding separator>
+              <q-item v-for="(item, index) in notices" :key="index" clickable v-ripple>
+                <q-item-section>{{ item.title }}</q-item-section>
+                <q-item-section>
+                  <div class="row justify-around items-center">
+                    <div>{{ item.name }}</div>
+                    <div>{{ item.time }}</div>
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
       </div>
       <div class="board column items-center q-mt-md">
         <div class="select-box">

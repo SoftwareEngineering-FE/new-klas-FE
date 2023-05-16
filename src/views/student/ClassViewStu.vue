@@ -8,6 +8,30 @@ const classes = ['소프트웨어공학', '운영체제'];
 
 const selectedSemester = ref('2023년도 1학기');
 const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
+const notices = [
+  {
+    title: '오늘 휴강',
+    time: '2023-05-12',
+    id: 1
+  },
+  {
+    title: '내일도 휴강',
+    time: '2023-05-13',
+    id: 2
+  }
+];
+const subjects = [
+{
+    title: '1차 프젝',
+    deadline: '2023-05-12',
+    id: 1
+  },
+  {
+    title: '2차 프젝',
+    deadline: '2023-05-13',
+    id: 2
+  }
+]
 </script>
 <template>
   <div class="background">
@@ -39,6 +63,17 @@ const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학�
         >
           <div class="board">
             <div class="title">공지사항</div>
+            <q-separator color="#d1d1d1" size="2" />
+            <q-list dense padding separator>
+              <q-item v-for="(item, index) in notices" :key="index" clickable v-ripple>
+                <q-item-section>{{ item.title }}</q-item-section>
+                <q-item-section>
+                  <div class="row justify-around items-center">
+                    {{ item.time }}
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </div>
         </div>
         <div
@@ -46,11 +81,22 @@ const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학�
             'col-12': q.screen.lt.md,
             'q-mt-md': q.screen.lt.md,
             'col-6': !q.screen.lt.md,
-            'q-pl-sm': !q.screen.lt.md,
+            'q-pl-sm': !q.screen.lt.md
           }"
         >
           <div class="board">
             <div class="title">과제</div>
+            <q-separator color="#d1d1d1" size="2" />
+            <q-list dense padding separator>
+              <q-item v-for="(item, index) in subjects" :key="index" clickable v-ripple>
+                <q-item-section>{{ item.title }}</q-item-section>
+                <q-item-section>
+                  <div class="row justify-around items-center">
+                    ~{{ item.deadline }} 까지
+                  </div>
+                </q-item-section>
+              </q-item>
+            </q-list>
           </div>
         </div>
       </div>
