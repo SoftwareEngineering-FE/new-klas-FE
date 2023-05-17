@@ -1,6 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { QTableProps } from 'quasar';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
+import { Line } from 'vue-chartjs'
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
 const columns: QTableProps['columns'] = [
   {
     name: 'name',
@@ -11,7 +31,7 @@ const columns: QTableProps['columns'] = [
     sortable: true
   },
   { name: 'totalGrade', align: 'center', label: '취득 학점', field: 'totalGrade', sortable: true },
-  { name: 'gradeAverage', label: '평균 평점', field: 'gradeAverage', sortable: true }
+  { name: 'gradeAverage', label: '평균 학점', field: 'gradeAverage', sortable: true }
 ];
 const rows = [
   {
@@ -23,8 +43,32 @@ const rows = [
     name: '2018학년도 2학기',
     totalGrade: 18,
     gradeAverage: 4.0
-  },
+  }
 ];
+let labels :string[] = [];
+let datasets = [
+  {
+    label: '평균 학점',
+    backgroundColor: '#555555',
+    data : new Array()
+  }
+];
+rows.forEach((row) => {
+  labels.push(row.name.split(' ')[0] + '\n' + row.name.split(' ')[1]);
+  datasets[0].data.push(row.gradeAverage)
+});
+let chartData = {
+  labels: labels,
+  datasets: datasets
+}
+let charOptions = {
+  scales:{
+    y:{
+      min:2.0,
+      max:4.5
+    }
+  }
+}
 </script>
 <template>
   <div class="background">
@@ -41,7 +85,7 @@ const rows = [
           :rows-per-page-options="[0]"
           row-key="name"
         />
-
+        <Line :data="chartData" :options="charOptions"/>
       </div>
       <div class="board column items-center q-mt-md"></div>
     </div>
