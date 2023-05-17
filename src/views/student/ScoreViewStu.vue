@@ -20,9 +20,9 @@ const rows = [
     gradeAverage: 4.2
   },
   {
-    name: '2018학년도 1학기',
-    totalGrade: 19,
-    gradeAverage: 4.2
+    name: '2018학년도 2학기',
+    totalGrade: 18,
+    gradeAverage: 4.0
   },
 ];
 </script>
@@ -41,7 +41,7 @@ const rows = [
           :rows-per-page-options="[0]"
           row-key="name"
         />
-        
+
       </div>
       <div class="board column items-center q-mt-md"></div>
     </div>
