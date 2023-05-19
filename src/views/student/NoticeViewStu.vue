@@ -20,15 +20,21 @@ const postData = {
         <q-separator></q-separator>
         <div class="post-head">
           <div class="post-title">{{ postData.title }}</div>
-          <div class="row post-desc">
-            <div class="desc">{{ postData.writer }}</div>
-            <div class="desc">{{ postData.date }}</div>
+          <div class="row">
+            <div class="q-pr-md">작성자 : {{ postData.writer }}</div>
+            <div class="">작성일 : {{ postData.date }}</div>
           </div>
         </div>
         <div class="post-body">{{ postData.content }}</div>
         <q-separator></q-separator>
         <div class="post-foot row justify-end">
-            <q-btn class="q-ma-sm" @click="router.back()" padding="3px 12px" color="kbrown" label="돌아가기" />
+          <q-btn
+            class="q-ma-sm"
+            @click="router.back()"
+            padding="3px 12px"
+            color="kbrown"
+            label="돌아가기"
+          />
         </div>
       </div>
     </div>
@@ -56,18 +62,18 @@ const postData = {
 .select-box {
   width: 200px;
 }
-.post-head{
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
-    background-color: #f3f3f3;
-    padding: 10px;
+.post-head {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  background-color: #f3f3f3;
+  padding: 10px;
 }
-.post-title{
-    font-size: 20px;
-    font-weight: bold;
+.post-title {
+  font-size: 20px;
+  font-weight: bold;
 }
-.post-body{
-    padding: 20px 15px;
-    font-size: 14px;
+.post-body {
+  padding: 20px 15px;
+  font-size: 14px;
 }
 </style>
