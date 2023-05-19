@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
 
 const q = useQuasar();
+const router = useRouter();
 const selectedClass = ref('소프트웨어공학');
 const classes = ['소프트웨어공학', '운영체제'];
-
 const selectedSemester = ref('2023년도 1학기');
 const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
 const notices = [
@@ -21,7 +22,7 @@ const notices = [
   }
 ];
 const subjects = [
-{
+  {
     title: '1차 프젝',
     deadline: '2023-05-12',
     id: 1
@@ -31,7 +32,10 @@ const subjects = [
     deadline: '2023-05-13',
     id: 2
   }
-]
+];
+const goNotice = (id: number) => {
+  router.push('/student/notice/' + id);
+};
 </script>
 <template>
   <div class="background">
@@ -65,7 +69,7 @@ const subjects = [
             <div class="title">공지사항</div>
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
-              <q-item v-for="(item, index) in notices" :key="index" clickable v-ripple>
+              <q-item v-for="(item, index) in notices" :key="index" @click="goNotice(item.id)" clickable v-ripple>
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
                   <div class="row justify-around items-center">
@@ -91,9 +95,7 @@ const subjects = [
               <q-item v-for="(item, index) in subjects" :key="index" clickable v-ripple>
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
-                  <div class="row justify-around items-center">
-                    ~{{ item.deadline }} 까지
-                  </div>
+                  <div class="row justify-around items-center">~{{ item.deadline }} 까지</div>
                 </q-item-section>
               </q-item>
             </q-list>
