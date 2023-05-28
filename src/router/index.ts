@@ -9,7 +9,8 @@ import HomeViewPro from '../views/professor/HomeViewPro.vue';
 import HomeViewAdm from '../views/admin/HomeViewAdm.vue';
 import ClassViewStu from '../views/student/ClassViewStu.vue';
 import ScoreViewStu from '../views/student/ScoreViewStu.vue';
-import NoticeViewStu from '../views/student/NoticeViewStu.vue'
+import NoticeViewStu from '../views/student/NoticeViewStu.vue';
+import SubjectViewStu from '../views/student/SubjectViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -38,12 +39,17 @@ const router = createRouter({
         {
           path: 'class',
           component: ClassViewStu,
-          props: true,
+          props: true
         },
         {
-          path:'notice/:id',
+          path: 'notice/:id',
           component: NoticeViewStu,
-          props:true,
+          props: true
+        },
+        {
+          path: 'subject/:id',
+          component: SubjectViewStu,
+          props: true
         },
         {
           path: 'score',

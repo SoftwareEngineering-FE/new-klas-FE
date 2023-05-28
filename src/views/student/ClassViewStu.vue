@@ -36,6 +36,9 @@ const subjects = [
 const goNotice = (id: number) => {
   router.push('/student/notice/' + id);
 };
+const goSubject = (id: number)=>{
+  router.push('/student/subject/' + id);
+}
 </script>
 <template>
   <div class="background">
@@ -92,7 +95,7 @@ const goNotice = (id: number) => {
             <div class="title">과제</div>
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
-              <q-item v-for="(item, index) in subjects" :key="index" clickable v-ripple>
+              <q-item v-for="(item, index) in subjects" :key="index" @click="goSubject(item.id)" clickable v-ripple>
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
                   <div class="row justify-around items-center">~{{ item.deadline }} 까지</div>

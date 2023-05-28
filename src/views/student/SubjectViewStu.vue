@@ -2,34 +2,67 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-
+const inputTitle = ref('');
+const inputFile = ref();
+const inputContext = ref('');
 const q = useQuasar();
 const router = useRouter();
-const postData = {
-  title: '오늘 수업은 없습니다.',
+const subjectData = {
+  title: '3차 프로젝트',
   writer: '홍길동',
   date: '2023-05-12',
-  content: '오늘 깜짝 이벤트로 수업이 없어져버렸어요~'
+  deadline: '2023-07-30',
+  className : '소프트웨어공학',
+  content: '학사 관리 시스템을 구현해보시오.'
 };
+const submit = () =>{
+
+}
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="title">과제</div>
+        <div class="title">{{subjectData.className}} 과제</div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ postData.title }}</div>
+          <div class="post-title">{{ subjectData.title }}</div>
           <div class="row">
-            <div class="q-pr-md">작성자 : {{ postData.writer }}</div>
-            <div class="">작성일 : {{ postData.date }}</div>
+            <div class="q-pr-md">작성자 : {{ subjectData.writer }}</div>
+            <div class="q-pr-md">작성일 : {{ subjectData.date }}</div>
+            <div class="">기한 : ~{{ subjectData.deadline }}</div>
           </div>
         </div>
-        <div class="post-body">{{ postData.content }}</div>
+        <div class="post-body">{{ subjectData.content }}</div>
         <q-separator></q-separator>
+        <div class="board q-mt-md q-pa-md">
+          <q-input outlined v-model="inputTitle" placeholder="제목" dense color="kbrown" />
+          <q-input class="q-mt-xs" v-model="inputContext" outlined type="textarea" color="kbrown" />
+          <q-input
+            class="q-mt-xs"
+            @update:model-value="
+              (val) => {
+                inputFile = val;
+              }
+            "
+            model-value="inputFile"
+            color="kbrown"
+            multiple
+            filled
+            type="file"
+          />
+        </div>
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
+            @click="submit"
+            padding="3px 12px"
+            color="kbrown"
+            label="제출하기"
+          />
+          <q-btn
+            class="q-ma-sm text-black"
+            flat
             @click="router.back()"
             padding="3px 12px"
             color="kbrown"

@@ -8,6 +8,12 @@
 .bg-kbrown {
   background: #920800 !important;
 }
+.text-kgray{
+  color: #FAF3F3 !important;
+}
+.bg-kgray{
+  background: #FAF3F3 !important;
+}
 .text-gray {
   color: #222222 !important;
 }
