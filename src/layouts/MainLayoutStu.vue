@@ -8,7 +8,7 @@ const toggleLeftDrawer = () => {
 </script>
 
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout class="bg-color" view="hHh LpR fFf">
     <q-header bordered class="bg-main text-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" class="absolute" @click="toggleLeftDrawer" />
@@ -58,5 +58,8 @@ const toggleLeftDrawer = () => {
 }
 .absolute {
   position: absolute;
+}
+.bg-color {
+  background-color: #f3f3f3;
 }
 </style>
