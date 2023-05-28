@@ -9,8 +9,8 @@ import HomeViewPro from '../views/professor/HomeViewPro.vue';
 import HomeViewAdm from '../views/admin/HomeViewAdm.vue';
 import ClassViewStu from '../views/student/ClassViewStu.vue';
 import ScoreViewStu from '../views/student/ScoreViewStu.vue';
-import NoticeViewStu from '../views/student/NoticeViewStu.vue';
-import SubjectViewStu from '../views/student/SubjectViewStu.vue';
+import NoticeViewStu from '../views/student/components/NoticeViewStu.vue';
+import SubjectViewStu from '../views/student/components/SubjectViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
