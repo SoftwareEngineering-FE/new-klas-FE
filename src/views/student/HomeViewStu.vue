@@ -16,6 +16,14 @@ const notices = [
     id: 2
   }
 ];
+const timeTable = [
+  {
+    day: 0, // 월 0, 화 1, 수 2, ... 
+    time: [0,1], // 0교시, 1교시
+    className: "소프트웨어공학",
+    professor: "이기훈",
+  }
+]
 </script>
 <template>
   <div class="background">

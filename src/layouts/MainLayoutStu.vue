@@ -38,7 +38,7 @@ const toggleLeftDrawer = () => {
           </q-item-section>
           <q-item-section>성적 결과</q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/student" class="text-black">
+        <q-item clickable v-ripple to="/student/registration" class="text-black">
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>

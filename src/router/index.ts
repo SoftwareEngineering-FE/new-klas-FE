@@ -11,6 +11,7 @@ import ClassViewStu from '../views/student/ClassViewStu.vue';
 import ScoreViewStu from '../views/student/ScoreViewStu.vue';
 import NoticeViewStu from '../views/student/components/NoticeViewStu.vue';
 import SubjectViewStu from '../views/student/components/SubjectViewStu.vue';
+import RegistrationViewStu from '@/views/student/RegistrationViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -34,12 +35,10 @@ const router = createRouter({
         {
           path: '',
           component: HomeViewStu,
-          props: true
         },
         {
           path: 'class',
           component: ClassViewStu,
-          props: true
         },
         {
           path: 'notice/:id',
@@ -54,7 +53,10 @@ const router = createRouter({
         {
           path: 'score',
           component: ScoreViewStu,
-          props: true
+        },
+        {
+          path:'registration',
+          component:RegistrationViewStu
         }
       ],
       beforeEnter: (to, from, next) => {
@@ -74,12 +76,10 @@ const router = createRouter({
         {
           path: '',
           component: HomeViewPro,
-          props: true
         },
         {
           path: 'class',
           component: HomeViewPro,
-          props: true
         }
       ],
       beforeEnter: (to, from, next) => {
