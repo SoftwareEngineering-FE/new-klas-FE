@@ -1,5 +1,37 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+const classes = [
+  {
+    classId: 8458,
+    className: '소프트웨어공학',
+    professor: '이기훈',
+    when: [
+        { 
+            day: 0, // 월 0 화 1 수 2 ...
+            time: [0, 1] // 0교시 1교시
+        },
+        { 
+            day: 1, 
+            time: [0, 1] 
+        },
+    ],
+  },
+  {
+    classId: 8458,
+    className: '소프트웨어공학',
+    professor: '이기훈',
+    when: [
+        { 
+            day: 3, // 월 0 화 1 수 2 ...
+            time: [0, 1] // 0교시 1교시
+        },
+        { 
+            day: 4, 
+            time: [0, 1] 
+        },
+    ],
+  }
+];
 </script>
 <template>
   <div class="background">

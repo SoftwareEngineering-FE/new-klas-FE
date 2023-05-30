@@ -18,12 +18,21 @@ const notices = [
 ];
 const timeTable = [
   {
-    day: 0, // 월 0, 화 1, 수 2, ... 
-    time: [0,1], // 0교시, 1교시
-    className: "소프트웨어공학",
-    professor: "이기훈",
+    classId: 8458,
+    className: '소프트웨어공학',
+    professor: '이기훈',
+    when: [
+      {
+        day: 0, // 월 0 화 1 수 2 ...
+        time: [0, 1] // 0교시 1교시
+      },
+      {
+        day: 0,
+        time: [0, 1]
+      }
+    ]
   }
-]
+];
 </script>
 <template>
   <div class="background">
@@ -31,17 +40,17 @@ const timeTable = [
       <div class="board">
         <div class="title">최근 공지사항</div>
         <q-separator color="#d1d1d1" size="2" />
-            <q-list dense padding separator>
-              <q-item v-for="(item, index) in notices" :key="index" clickable v-ripple>
-                <q-item-section>{{ item.title }}</q-item-section>
-                <q-item-section>
-                  <div class="row justify-around items-center">
-                    <div>{{ item.name }}</div>
-                    <div>{{ item.time }}</div>
-                  </div>
-                </q-item-section>
-              </q-item>
-            </q-list>
+        <q-list dense padding separator>
+          <q-item v-for="(item, index) in notices" :key="index" clickable v-ripple>
+            <q-item-section>{{ item.title }}</q-item-section>
+            <q-item-section>
+              <div class="row justify-around items-center">
+                <div>{{ item.name }}</div>
+                <div>{{ item.time }}</div>
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </div>
       <div class="board column items-center q-mt-md">
         <div class="select-box">
