@@ -14,9 +14,31 @@ type lectureType = {
   professor: string;
   when: whenType[];
 };
+const hasTimeOverlap = (time1:number[], time2:number[]) => {
+  for (const t1 of time1) {
+    for (const t2 of time2) {
+      if (t1 === t2) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
 const addLecture = (lecture: lectureType) => {
+  for (const existingLecture of lectureBasket.value.values()) {
+    for (const existingWhen of existingLecture.when) {
+      for (const newWhen of lecture.when) {
+        if (existingWhen.day !== newWhen.day) {
+          continue;
+        }
+        if (hasTimeOverlap(existingWhen.time, newWhen.time)) {
+          console.log('강의 시간이 겹칩니다.');
+          return;
+        }
+      }
+    }
+  }
   lectureBasket.value.set(lecture.lectureId, lecture);
-  console.log(lectureBasket.value);
 };
 const deleteLecture = (lectureId: number) => {
   lectureBasket.value.delete(lectureId);
@@ -49,6 +71,21 @@ const lectures = [
       {
         day: 3, // 월 0 화 1 수 2 ...
         time: [0, 1] // 0교시 1교시
+      },
+      {
+        day: 4,
+        time: [0, 1]
+      }
+    ]
+  },
+  {
+    lectureId: 8259,
+    lectureName: '소프트웨어공학3',
+    professor: '이기훈',
+    when: [
+      {
+        day: 0, // 월 0 화 1 수 2 ...
+        time: [1, 2] // 0교시 1교시
       },
       {
         day: 4,
