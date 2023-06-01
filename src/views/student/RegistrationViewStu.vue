@@ -18,7 +18,7 @@ const addLecture = (lecture: lectureType) => {
   lectureBasket.value.set(lecture.lectureId, lecture);
   console.log(lectureBasket.value);
 };
-const deleteLecture = (lectureId : number) => {
+const deleteLecture = (lectureId: number) => {
   lectureBasket.value.delete(lectureId);
 };
 type dayType = {
@@ -163,6 +163,7 @@ const lectures = [
   border: 1px solid #d1d1d1;
   border-radius: 5px;
   padding: 15px;
+  min-height: 300px;
 }
 .title {
   font-size: 18px;
@@ -198,6 +199,7 @@ const lectures = [
 }
 table {
   border-collapse: collapse;
+  border-top: 2px solid gray;
 }
 th {
   background: #efe3e3;
