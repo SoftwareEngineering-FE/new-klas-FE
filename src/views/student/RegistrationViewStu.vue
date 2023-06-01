@@ -14,7 +14,7 @@ type lectureType = {
   professor: string;
   when: whenType[];
 };
-const hasTimeOverlap = (time1:number[], time2:number[]) => {
+const hasTimeOverlap = (time1: number[], time2: number[]) => {
   for (const t1 of time1) {
     for (const t2 of time2) {
       if (t1 === t2) {
@@ -33,6 +33,7 @@ const addLecture = (lecture: lectureType) => {
         }
         if (hasTimeOverlap(existingWhen.time, newWhen.time)) {
           console.log('강의 시간이 겹칩니다.');
+          alert('시간이 겹치는 수업이 있습니다.');
           return;
         }
       }
