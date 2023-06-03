@@ -118,12 +118,12 @@ console.log(table);
         <div class="table q-mt-md">
           <div class="row">
             <div class="blank"></div>
-            <div class="col text-center">월</div>
-            <div class="col text-center">화</div>
-            <div class="col text-center">수</div>
-            <div class="col text-center">목</div>
-            <div class="col text-center">금</div>
-            <div class="col text-center">토</div>
+            <div class="col day">월</div>
+            <div class="col day">화</div>
+            <div class="col day">수</div>
+            <div class="col day">목</div>
+            <div class="col day">금</div>
+            <div class="col day">토</div>
           </div>
           <div class="row">
             <div>
@@ -155,7 +155,10 @@ console.log(table);
 .blank {
   width: 20px;
   border-left: 1px solid #d1d1d1;
-  border-right: 1px solid #d1d1d1;
+}
+.day {
+  text-align: center;
+  border-left: 1px solid #d1d1d1;
 }
 .time {
   width: 20px;
