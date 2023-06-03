@@ -206,7 +206,7 @@ console.log(table);
 @mixin class {
   cursor: pointer;
   font-size: 12px;
-
+  width: 100%;
   position: absolute;
   z-index: 1;
 }
