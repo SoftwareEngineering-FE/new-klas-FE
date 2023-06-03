@@ -115,7 +115,7 @@ console.log(table);
             dense
           />
         </div>
-        <div class="table">
+        <div class="table q-mt-md">
           <div class="row">
             <div class="blank"></div>
             <div class="col text-center">월</div>
