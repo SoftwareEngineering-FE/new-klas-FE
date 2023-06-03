@@ -140,7 +140,7 @@ console.log(table);
             </div>
             <div class="col" v-for="(el, index) in table" :key="index">
               <div class="class-box" v-for="(el2, index2) in el" :key="index2">
-                <div :class="{ class1: el2.term === 1, class2: el2.term === 2 }">
+                <div :class="{ class1: el2.term === 1, class2: el2.term === 2 }" clickable v-ripple>
                   {{ el2.lectureName }}
                 </div>
               </div>
