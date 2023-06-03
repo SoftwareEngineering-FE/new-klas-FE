@@ -27,12 +27,65 @@ const timeTable = [
         time: [0, 1] // 0교시 1교시
       },
       {
-        day: 0,
+        day: 1,
         time: [0, 1]
+      }
+    ]
+  },
+  {
+    classId: 8459,
+    className: '소프트웨어공학2',
+    professor: '이기훈',
+    when: [
+      {
+        day: 0, // 월 0 화 1 수 2 ...
+        time: [4, 5, 7] // 0교시 1교시
+      },
+      {
+        day: 1,
+        time: [3, 4]
       }
     ]
   }
 ];
+
+const table: any = [];
+for (let i = 0; i < 6; i++) {
+  table[i] = [];
+  for (let j = 0; j < 10; j++) {
+    table[i][j] = {
+      lectureName: '',
+      professorName: '',
+      term: 0
+    };
+  }
+}
+const setTable = () => {
+  timeTable.forEach((lecture) => {
+    lecture.when.forEach((t) => {
+      let start = t.time[0];
+      let exStart = t.time[0];
+      let countTerm = 0;
+      for (let i = 0; i < t.time.length; i++) {
+        if (t.time[i] - exStart > 1) {
+          table[t.day][start].lectureName = lecture.className;
+          table[t.day][start].professorName = lecture.professor;
+          table[t.day][start].term = countTerm;
+          start = t.time[i];
+          countTerm = 1;
+        } else {
+          countTerm++;
+        }
+        exStart = t.time[i];
+      }
+      table[t.day][start].lectureName = lecture.className;
+      table[t.day][start].professorName = lecture.professor;
+      table[t.day][start].term = countTerm;
+    });
+  });
+};
+setTable();
+console.log(table);
 </script>
 <template>
   <div class="background">
@@ -62,33 +115,36 @@ const timeTable = [
             dense
           />
         </div>
-        <div class="table q-mt-sm">
-          <div class="row font-size-16">
-            <div class="first td"></div>
-            <div class="col td flex flex-center">월</div>
-            <div class="col td flex flex-center">화</div>
-            <div class="col td flex flex-center">수</div>
-            <div class="col td flex flex-center">목</div>
-            <div class="col td flex flex-center">금</div>
-            <div class="col td flex flex-center">토</div>
+        <div class="table">
+          <div class="row">
+            <div class="blank"></div>
+            <div class="col text-center">월</div>
+            <div class="col text-center">화</div>
+            <div class="col text-center">수</div>
+            <div class="col text-center">목</div>
+            <div class="col text-center">금</div>
+            <div class="col text-center">토</div>
           </div>
           <div class="row">
-            <div class="first td flex flex-center">0</div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-            <div class="col td"><div class="class-2" v-ripple>asd</div></div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-          </div>
-          <div class="row">
-            <div class="first td flex flex-center">1</div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-            <div class="col td"></div>
-            <div class="col td"></div>
+            <div>
+              <div class="time">0</div>
+              <div class="time">1</div>
+              <div class="time">2</div>
+              <div class="time">3</div>
+              <div class="time">4</div>
+              <div class="time">5</div>
+              <div class="time">6</div>
+              <div class="time">7</div>
+              <div class="time">8</div>
+              <div class="time">9</div>
+            </div>
+            <div class="col" v-for="(el, index) in table" :key="index">
+              <div class="class-box" v-for="(el2, index2) in el" :key="index2">
+                <div :class="{ class1: el2.term === 1, class2: el2.term === 2 }">
+                  {{ el2.lectureName }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -96,6 +152,27 @@ const timeTable = [
   </div>
 </template>
 <style scoped lang="scss">
+.blank {
+  width: 20px;
+  border-left: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
+}
+.time {
+  width: 20px;
+  height: 60px;
+  text-align: center;
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+}
+.text-center {
+  text-align: center;
+}
+.class-box {
+  height: 60px;
+  position: relative;
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+}
 .background {
   background-color: #f3f3f3;
   padding: 15px 20px;
@@ -119,35 +196,28 @@ const timeTable = [
 }
 .table {
   width: 100%;
-  border-right: 1px solid #d1d1d1;
-  border-bottom: 1px solid #d1d1d1;
-}
-.first {
-  width: 20px;
-}
-.td {
-  position: relative;
-  border-left: 1px solid #d1d1d1;
   border-top: 1px solid #d1d1d1;
-  height: 60px;
+  border-bottom: 1px solid #d1d1d1;
+  border-right: 1px solid #d1d1d1;
 }
 @mixin class {
   cursor: pointer;
   font-size: 12px;
-  background-color: rgb(240, 240, 136);
+
   position: absolute;
-  width: 100%;
   z-index: 1;
 }
-.class-1 {
+.class1 {
   @include class;
+  background-color: #f0f088;
   height: 59px;
 }
-.class-2 {
+.class2 {
   @include class;
   height: 119px;
+  background-color: #ffc6a2;
 }
-.class-3 {
+.class3 {
   @include class;
   height: 179px;
 }
