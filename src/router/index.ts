@@ -12,6 +12,7 @@ import ScoreViewStu from '../views/student/ScoreViewStu.vue';
 import NoticeViewStu from '../views/student/components/NoticeViewStu.vue';
 import SubjectViewStu from '../views/student/components/SubjectViewStu.vue';
 import RegistrationViewStu from '@/views/student/RegistrationViewStu.vue';
+import CourseDescViewStu from '@/views/student/components/CourseDescViewStu.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -48,6 +49,11 @@ const router = createRouter({
         {
           path: 'subject/:id',
           component: SubjectViewStu,
+          props: true
+        },
+        {
+          path: 'coursedesc/:id',
+          component:CourseDescViewStu,
           props: true
         },
         {

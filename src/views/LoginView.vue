@@ -2,7 +2,8 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLoginStore } from '../stores/login';
-
+const inputId = ref('');
+const inputPw = ref('');
 const router = useRouter();
 const goSignup = () => {
   router.push('/signup');
@@ -20,8 +21,6 @@ const goHome = () => {
   // else (professor)
   // router.push('/professor');
 };
-const inputId = ref('');
-const inputPw = ref('');
 </script>
 <template>
   <div class="container flex flex-center column">

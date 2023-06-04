@@ -33,6 +33,9 @@ const subjects = [
     id: 2
   }
 ];
+const goCourseDesc = (id: number)=>{
+  router.push('/student/coursedesc/' + id);
+}
 const goNotice = (id: number) => {
   router.push('/student/notice/' + id);
 };
@@ -59,6 +62,7 @@ const goSubject = (id: number)=>{
       <div class="board q-mt-sm">
         담당 교수 : <strong>이기훈 교수님</strong> 연락처 : <strong>010-xxxx-xxxx</strong> 이메일 :
         <strong>sample@sample.com</strong>
+        <q-btn class="q-ml-md" color="kbrown" label="강의계획서 조회" size="md" dense @click="goCourseDesc(8458)"/>
       </div>
       <div class="row q-mt-md">
         <div
