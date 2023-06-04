@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLoginStore } from '../stores/login';
-const inputId = ref('');
+const inputId = ref();
 const inputPw = ref('');
 const router = useRouter();
 const goSignup = () => {
@@ -12,7 +12,7 @@ const goHome = () => {
   //로그인 데이터 확인
   const login = useLoginStore();
   login.setLogin(true);
-
+  login.setId(inputId.value);
   // if (student) {
   router.push('/student');
   // }
