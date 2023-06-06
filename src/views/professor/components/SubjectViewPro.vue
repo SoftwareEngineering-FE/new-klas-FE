@@ -12,6 +12,9 @@ const subjectData = {
   className: '소프트웨어공학',
   content: '학사 관리 시스템을 구현해보시오.'
 };
+const goUpdateSubject = (classId: number, id: number) => {
+  router.push('/professor/updatesubject/' + classId + '/' + id);
+};
 const submit = () => {};
 </script>
 <template>
@@ -32,7 +35,7 @@ const submit = () => {};
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
-            @click="router.back()"
+            @click="goUpdateSubject(84458, 1)"
             padding="3px 12px"
             color="kbrown"
             label="수정"

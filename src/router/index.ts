@@ -23,6 +23,8 @@ import SubjectViewPro from '../views/professor/components/SubjectViewPro.vue';
 import CourseDescViewPro from '@/views/professor/components/CourseDescViewPro.vue';
 import WriteNoticePro from '@/views/professor/components/WriteNoticePro.vue';
 import AddSubjectPro from '@/views/professor/components/AddSubjectPro.vue'
+import UpdateNoticePro from '@/views/professor/components/UpdateNoticePro.vue'
+import UpdateSubjectPro from '@/views/professor/components/UpdateSubjectPro.vue';
 
 import { useLoginStore } from '../stores/login';
 
@@ -119,10 +121,20 @@ const router = createRouter({
           props: true
         },
         {
+          path: 'updatenotice/:classId/:id',
+          component:UpdateNoticePro,
+          props: true
+        },
+        {
           path: 'addsubject/:id',
           component:AddSubjectPro,
           props: true
-        }
+        },
+        {
+          path: 'updatesubject/:classId/:id',
+          component:UpdateSubjectPro,
+          props: true
+        },
       ],
       beforeEnter: (to, from, next) => {
         const login = useLoginStore();

@@ -6,23 +6,41 @@ const q = useQuasar();
 const router = useRouter();
 const inputTitle = ref('');
 const inputContext = ref('');
-const submit = () => {};
+const inputDeadline = ref('');
+const props = defineProps({
+  classId: {
+    type: String,
+    required: true
+  },
+  id: {
+    type: String,
+    required: true
+  }
+});
+const submit = () => {
+  console.log(inputDeadline.value);
+};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <q-input color="kbrown" class="q-mb-md" outlined v-model="inputTitle" label="제목" dense />
+        <div class="title q-mb-sm">과제 수정</div>
+        <q-separator></q-separator>
+        <q-input color="kbrown" class="q-my-md" outlined v-model="inputTitle" label="제목" dense />
+        <q-input
+          color="kbrown"
+          class="q-mb-md"
+          v-model="inputDeadline"
+          filled
+          type="date"
+          hint="제출 기한"
+          dense
+        />
         <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
 
         <div class="post-foot row justify-end">
-          <q-btn
-            class="q-ma-sm"
-            @click="submit()"
-            padding="3px 12px"
-            color="kbrown"
-            label="작성"
-          />
+          <q-btn class="q-ma-sm" @click="submit()" padding="3px 12px" color="kbrown" label="작성" />
           <q-btn
             class="q-ma-sm"
             @click="router.back()"
@@ -56,19 +74,5 @@ const submit = () => {};
 }
 .select-box {
   width: 200px;
-}
-.post-head {
-  border-top: 1px solid gray;
-  border-bottom: 1px solid gray;
-  background-color: #f3f3f3;
-  padding: 10px;
-}
-.post-title {
-  font-size: 20px;
-  font-weight: bold;
-}
-.post-body {
-  padding: 20px 15px;
-  font-size: 14px;
 }
 </style>

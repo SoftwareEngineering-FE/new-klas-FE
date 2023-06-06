@@ -11,6 +11,9 @@ const postData = {
   date: '2023-05-12',
   content: '오늘 깜짝 이벤트로 수업이 없어져버렸어요~'
 };
+const goUpdateNotice = (classId: number, id: number) => {
+  router.push('/professor/updatenotice/' + classId + '/' + id);
+};
 </script>
 <template>
   <div class="background">
@@ -30,7 +33,7 @@ const postData = {
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
-            @click="router.back()"
+            @click="goUpdateNotice(8458, 1)"
             padding="3px 12px"
             color="kbrown"
             label="수정"

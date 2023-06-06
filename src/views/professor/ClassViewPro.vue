@@ -33,6 +33,9 @@ const subjects = [
     id: 2
   }
 ];
+const goAddSubject = (id: number) => {
+  router.push('/professor/addsubject/' + id);
+};
 const goWriteNotice = (id: number) => {
   router.push('/professor/writenotice/' + id);
 };
@@ -117,7 +120,7 @@ const goSubject = (id: number) => {
           <div class="board">
             <div class="row items-center justify-between">
                 <div class="title">과제</div>
-                <q-btn flat color="kbrown" label="과제 추가" />
+                <q-btn flat color="kbrown" label="과제 추가" @click="goAddSubject(8458)"/>
             </div>
             
             <q-separator color="#d1d1d1" size="2" />

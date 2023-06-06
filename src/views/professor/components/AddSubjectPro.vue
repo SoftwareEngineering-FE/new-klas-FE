@@ -6,23 +6,31 @@ const q = useQuasar();
 const router = useRouter();
 const inputTitle = ref('');
 const inputContext = ref('');
-const submit = () => {};
+const inputDeadline = ref('');
+const submit = () => {
+  console.log(inputDeadline.value);
+};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <q-input class="q-mb-md" outlined v-model="inputTitle" label="제목" dense />
-        <q-input v-model="inputContext" label="내용" filled type="textarea" />
+        <div class="title q-mb-sm">과제 추가</div>
+        <q-separator></q-separator>
+        <q-input color="kbrown" class="q-my-md" outlined v-model="inputTitle" label="제목" dense />
+        <q-input
+          color="kbrown"
+          class="q-mb-md"
+          v-model="inputDeadline"
+          filled
+          type="date"
+          hint="제출 기한"
+          dense
+        />
+        <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
 
         <div class="post-foot row justify-end">
-          <q-btn
-            class="q-ma-sm"
-            @click="submit()"
-            padding="3px 12px"
-            color="kbrown"
-            label="작성"
-          />
+          <q-btn class="q-ma-sm" @click="submit()" padding="3px 12px" color="kbrown" label="작성" />
           <q-btn
             class="q-ma-sm"
             @click="router.back()"

@@ -2,11 +2,24 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+const props = defineProps({
+  classId: {
+    type: String,
+    required: true
+  },
+  id: {
+    type: String,
+    required: true
+  }
+});
 const q = useQuasar();
 const router = useRouter();
 const inputTitle = ref('');
 const inputContext = ref('');
-const submit = () => {};
+const submit = () => {
+  console.log(props);
+  console.log(props.classId, props.id);
+};
 </script>
 <template>
   <div class="background">
@@ -16,13 +29,7 @@ const submit = () => {};
         <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
 
         <div class="post-foot row justify-end">
-          <q-btn
-            class="q-ma-sm"
-            @click="submit()"
-            padding="3px 12px"
-            color="kbrown"
-            label="작성"
-          />
+          <q-btn class="q-ma-sm" @click="submit()" padding="3px 12px" color="kbrown" label="수정" />
           <q-btn
             class="q-ma-sm"
             @click="router.back()"
