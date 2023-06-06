@@ -14,12 +14,12 @@ const goHome = () => {
   login.setLogin(true);
   login.setId(inputId.value);
   // if (student) {
-  router.push('/student');
+  // router.push('/student');
   // }
   // else if (admin)
   // router.push('/admin');
   // else (professor)
-  // router.push('/professor');
+  router.push('/professor');
 };
 </script>
 <template>

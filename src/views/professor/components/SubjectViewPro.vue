@@ -2,37 +2,41 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-const selectedClass = ref('소프트웨어공학');
-const classes = ['소프트웨어공학', '운영체제'];
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
 const q = useQuasar();
 const router = useRouter();
-const postData = {
+const subjectData = {
+  title: '3차 프로젝트',
+  writer: '홍길동',
+  date: '2023-05-12',
+  deadline: '2023-07-30',
   className: '소프트웨어공학',
-  classDesc: '앞으로 강의 진행은 ,,,'
+  content: '학사 관리 시스템을 구현해보시오.'
 };
+const submit = () => {};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="row q-mb-md">
-          <div class="select-box q-mr-md">
-            <q-select color="main" v-model="selectedSemester" :options="semesters" dense />
-          </div>
-
-          <div class="select-box">
-            <q-select color="main" v-model="selectedClass" :options="classes" dense />
-          </div>
-        </div>
+        <div class="title">{{ subjectData.className }} 과제</div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ postData.className }} 강의계획서</div>
+          <div class="post-title">{{ subjectData.title }}</div>
+          <div class="row">
+            <div class="q-pr-md">작성자 : {{ subjectData.writer }}</div>
+            <div class="q-pr-md">작성일 : {{ subjectData.date }}</div>
+            <div class="">기한 : ~{{ subjectData.deadline }}</div>
+          </div>
         </div>
-        <div class="post-body">{{ postData.classDesc }}</div>
-        <q-separator></q-separator>
+        <div class="post-body">{{ subjectData.content }}</div>
         <div class="post-foot row justify-end">
+          <q-btn
+            class="q-ma-sm"
+            @click="router.back()"
+            padding="3px 12px"
+            color="kbrown"
+            label="수정"
+          />
           <q-btn
             class="q-ma-sm"
             @click="router.back()"
@@ -80,8 +84,5 @@ const postData = {
 .post-body {
   padding: 20px 15px;
   font-size: 14px;
-}
-.select-box {
-  width: 200px;
 }
 </style>

@@ -25,6 +25,7 @@ const hasTimeOverlap = (time1: number[], time2: number[]) => {
   }
   return false;
 };
+const dropLecture = (lectureId: number) => {};
 const addLecture = (lecture: lectureType) => {
   for (const existingLecture of lectureBasket.value.values()) {
     for (const existingWhen of existingLecture.when) {
@@ -164,12 +165,14 @@ const lectures = [
         <div class="title">신청된 강의</div>
         <table class="q-mb-sm">
           <colgroup>
+            <col width="2%" />
             <col width="10%" />
             <col width="3%" />
             <col width="5%" />
           </colgroup>
           <thead>
             <tr>
+              <th class="ths">제거</th>
               <th class="ths">과목명</th>
               <th class="ths">교수</th>
               <th class="ths">시간</th>
@@ -177,6 +180,9 @@ const lectures = [
           </thead>
           <tbody>
             <tr v-for="(lecture, index) in lectures" :key="index">
+              <td>
+                <q-btn flat color="kbrown" icon="remove" dense @click="dropLecture(lecture.lectureId)" />
+              </td>
               <td>{{ lecture.lectureName }}</td>
               <td>{{ lecture.professor }}</td>
               <td>

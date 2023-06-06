@@ -44,6 +44,12 @@ const toggleLeftDrawer = () => {
           </q-item-section>
           <q-item-section>수강 신청</q-item-section>
         </q-item>
+        <q-item clickable v-ripple to="/student/coursedesc" class="text-black">
+          <q-item-section avatar>
+            <q-icon name="description" />
+          </q-item-section>
+          <q-item-section>강의 계획서 조회</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

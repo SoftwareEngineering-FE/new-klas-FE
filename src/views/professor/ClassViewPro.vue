@@ -33,19 +33,25 @@ const subjects = [
     id: 2
   }
 ];
-const goNotice = (id: number) => {
-  router.push('/student/notice/' + id);
+const goWriteNotice = (id: number) => {
+  router.push('/professor/writenotice/' + id);
 };
-const goSubject = (id: number)=>{
-  router.push('/student/subject/' + id);
-}
+const goCourseDesc = (id: number) => {
+  router.push('/professor/coursedesc/' + id);
+};
+const goNotice = (id: number) => {
+  router.push('/professor/notice/' + id);
+};
+const goSubject = (id: number) => {
+  router.push('/professor/subject/' + id);
+};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
         <div class="title row items-center">
-          <div class="q-mr-md">수강중인 강의</div>
+          <div class="q-mr-md">담당 강의</div>
 
           <div class="select-box q-mr-md">
             <q-select color="main" v-model="selectedSemester" :options="semesters" dense />
@@ -56,6 +62,17 @@ const goSubject = (id: number)=>{
           </div>
         </div>
       </div>
+      <div class="board q-mt-sm">
+        담당 교수 : <strong>이기훈 교수님</strong>
+        <q-btn
+          class="q-ml-md"
+          color="kbrown"
+          label="강의계획서 조회"
+          size="md"
+          dense
+          @click="goCourseDesc(8458)"
+        />
+      </div>
       <div class="row q-mt-md">
         <div
           :class="{
@@ -65,10 +82,20 @@ const goSubject = (id: number)=>{
           }"
         >
           <div class="board">
-            <div class="title">공지사항</div>
+            <div class="row items-center justify-between">
+                <div class="title">공지사항</div>
+                <q-btn flat color="kbrown" label="글 작성" @click="goWriteNotice(8458)"/>
+            </div>
+            
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
-              <q-item v-for="(item, index) in notices" :key="index" @click="goNotice(item.id)" clickable v-ripple>
+              <q-item
+                v-for="(item, index) in notices"
+                :key="index"
+                @click="goNotice(item.id)"
+                clickable
+                v-ripple
+              >
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
                   <div class="row justify-around items-center">
@@ -88,10 +115,20 @@ const goSubject = (id: number)=>{
           }"
         >
           <div class="board">
-            <div class="title">과제</div>
+            <div class="row items-center justify-between">
+                <div class="title">과제</div>
+                <q-btn flat color="kbrown" label="과제 추가" />
+            </div>
+            
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
-              <q-item v-for="(item, index) in subjects" :key="index" @click="goSubject(item.id)" clickable v-ripple>
+              <q-item
+                v-for="(item, index) in subjects"
+                :key="index"
+                @click="goSubject(item.id)"
+                clickable
+                v-ripple
+              >
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
                   <div class="row justify-around items-center">~{{ item.deadline }} 까지</div>

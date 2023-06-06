@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '../views/LoginView.vue';
 import SignupView from '../views/SignupView.vue';
+
 import MainLayoutStu from '../layouts/MainLayoutStu.vue';
 import MainLayoutPro from '../layouts/MainLayoutPro.vue';
 import MainLayoutAdm from '../layouts/MainLayoutAdm.vue';
+
 import HomeViewStu from '../views/student/HomeViewStu.vue';
-import HomeViewPro from '../views/professor/HomeViewPro.vue';
+
 import HomeViewAdm from '../views/admin/HomeViewAdm.vue';
 import ClassViewStu from '../views/student/ClassViewStu.vue';
 import ScoreViewStu from '../views/student/ScoreViewStu.vue';
@@ -13,6 +15,15 @@ import NoticeViewStu from '../views/student/components/NoticeViewStu.vue';
 import SubjectViewStu from '../views/student/components/SubjectViewStu.vue';
 import RegistrationViewStu from '@/views/student/RegistrationViewStu.vue';
 import CourseDescViewStu from '@/views/student/components/CourseDescViewStu.vue';
+
+import HomeViewPro from '../views/professor/HomeViewPro.vue';
+import ClassViewPro from '@/views/professor/ClassViewPro.vue';
+import NoticeViewPro from '../views/professor/components/NoticeViewPro.vue';
+import SubjectViewPro from '../views/professor/components/SubjectViewPro.vue';
+import CourseDescViewPro from '@/views/professor/components/CourseDescViewPro.vue';
+import WriteNoticePro from '@/views/professor/components/WriteNoticePro.vue';
+import AddSubjectPro from '@/views/professor/components/AddSubjectPro.vue'
+
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -52,7 +63,7 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'coursedesc/:id',
+          path: 'coursedesc',
           component:CourseDescViewStu,
           props: true
         },
@@ -85,7 +96,32 @@ const router = createRouter({
         },
         {
           path: 'class',
-          component: HomeViewPro,
+          component: ClassViewPro,
+        },
+        {
+          path: 'notice/:id',
+          component: NoticeViewPro,
+          props: true
+        },
+        {
+          path: 'subject/:id',
+          component: SubjectViewPro,
+          props: true
+        },
+        {
+          path: 'coursedesc/:id',
+          component:CourseDescViewPro,
+          props: true
+        },
+        {
+          path: 'writenotice/:id',
+          component:WriteNoticePro,
+          props: true
+        },
+        {
+          path: 'addsubject/:id',
+          component:AddSubjectPro,
+          props: true
         }
       ],
       beforeEnter: (to, from, next) => {

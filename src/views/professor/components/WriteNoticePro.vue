@@ -2,37 +2,27 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-const selectedClass = ref('소프트웨어공학');
-const classes = ['소프트웨어공학', '운영체제'];
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
 const q = useQuasar();
 const router = useRouter();
-const postData = {
-  className: '소프트웨어공학',
-  classDesc: '앞으로 강의 진행은 ,,,'
-};
+const inputTitle = ref('');
+const inputContext = ref('');
+const submit = () => {};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="row q-mb-md">
-          <div class="select-box q-mr-md">
-            <q-select color="main" v-model="selectedSemester" :options="semesters" dense />
-          </div>
+        <q-input class="q-mb-md" outlined v-model="inputTitle" label="제목" dense />
+        <q-input v-model="inputContext" label="내용" filled type="textarea" />
 
-          <div class="select-box">
-            <q-select color="main" v-model="selectedClass" :options="classes" dense />
-          </div>
-        </div>
-        <q-separator></q-separator>
-        <div class="post-head">
-          <div class="post-title">{{ postData.className }} 강의계획서</div>
-        </div>
-        <div class="post-body">{{ postData.classDesc }}</div>
-        <q-separator></q-separator>
         <div class="post-foot row justify-end">
+          <q-btn
+            class="q-ma-sm"
+            @click="submit()"
+            padding="3px 12px"
+            color="kbrown"
+            label="작성"
+          />
           <q-btn
             class="q-ma-sm"
             @click="router.back()"
@@ -80,8 +70,5 @@ const postData = {
 .post-body {
   padding: 20px 15px;
   font-size: 14px;
-}
-.select-box {
-  width: 200px;
 }
 </style>

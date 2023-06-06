@@ -2,10 +2,7 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-const selectedClass = ref('소프트웨어공학');
-const classes = ['소프트웨어공학', '운영체제'];
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
+
 const q = useQuasar();
 const router = useRouter();
 const postData = {
@@ -17,18 +14,9 @@ const postData = {
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="row q-mb-md">
-          <div class="select-box q-mr-md">
-            <q-select color="main" v-model="selectedSemester" :options="semesters" dense />
-          </div>
-
-          <div class="select-box">
-            <q-select color="main" v-model="selectedClass" :options="classes" dense />
-          </div>
-        </div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ postData.className }} 강의계획서</div>
+          <div class="post-title">{{postData.className}} 강의계획서</div>
         </div>
         <div class="post-body">{{ postData.classDesc }}</div>
         <q-separator></q-separator>
@@ -80,8 +68,5 @@ const postData = {
 .post-body {
   padding: 20px 15px;
   font-size: 14px;
-}
-.select-box {
-  width: 200px;
 }
 </style>
