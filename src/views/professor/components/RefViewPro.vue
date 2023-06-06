@@ -2,28 +2,41 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+
 const q = useQuasar();
 const router = useRouter();
-const inputTitle = ref('');
-const inputContext = ref('');
-const submit = () => {};
+const postData = {
+  title: '1주차 강의 자료',
+  writer: '홍길동',
+  date: '2023-05-12',
+  content: '1주차 강의 자료입니다.'
+};
+const goUpdateRef = (classId: number, id: number) => {
+  router.push('/professor/updateref/' + classId + '/' + id);
+};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="title">공지사항 게시글 작성</div>
+        <div class="title">강의 자료실</div>
         <q-separator></q-separator>
-        <q-input color="kbrown" class="q-mb-md" outlined v-model="inputTitle" label="제목" dense />
-        <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
-
+        <div class="post-head">
+          <div class="post-title">{{ postData.title }}</div>
+          <div class="row">
+            <div class="q-pr-md">작성자 : {{ postData.writer }}</div>
+            <div class="">작성일 : {{ postData.date }}</div>
+          </div>
+        </div>
+        <div class="post-body">{{ postData.content }}</div>
+        <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
-            @click="submit()"
+            @click="goUpdateRef(8458, 1)"
             padding="3px 12px"
             color="kbrown"
-            label="작성"
+            label="수정"
           />
           <q-btn
             class="q-ma-sm"

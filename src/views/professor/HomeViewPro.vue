@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useLoginStore } from '../../stores/login';
 const login = useLoginStore();
-console.log(login.loginId)
 const selectedSemester = ref('2023년도 1학기');
 const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
 const notices = [
@@ -88,7 +87,6 @@ const setTable = () => {
   });
 };
 setTable();
-console.log(table);
 </script>
 <template>
   <div class="background">

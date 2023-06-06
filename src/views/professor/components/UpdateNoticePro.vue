@@ -25,6 +25,8 @@ const submit = () => {
   <div class="background">
     <div class="wrapper">
       <div class="board">
+        <div class="title">공지사항 게시글 수정</div>
+        <q-separator></q-separator>
         <q-input color="kbrown" class="q-mb-md" outlined v-model="inputTitle" label="제목" dense />
         <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
 

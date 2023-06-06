@@ -33,6 +33,35 @@ const subjects = [
     id: 2
   }
 ];
+const references = [
+  {
+    title: '1주차 강의 자료',
+    time: '2023-05-12',
+    id: 1
+  },
+  {
+    title: '2주차 강의 자료',
+    time: '2023-05-13',
+    id: 2
+  }
+];
+const studentScore = ref([]);
+const scoreData: { studentId: number; score: string }[] = [];
+const students = [
+  {
+    studentId: 2018202048,
+    studentName: '이민재',
+    score: ''
+  },
+  {
+    studentId: 2018202043,
+    studentName: '이민재2',
+    score: 'A+'
+  }
+];
+const goWriteRef = (id: number) => {
+  router.push('/professor/writeref/' + id);
+};
 const goAddSubject = (id: number) => {
   router.push('/professor/addsubject/' + id);
 };
@@ -43,10 +72,17 @@ const goCourseDesc = (id: number) => {
   router.push('/professor/coursedesc/' + id);
 };
 const goNotice = (id: number) => {
-  router.push('/professor/notice/' + id);
+  router.push('/professor/notice/8458/' + id);
 };
 const goSubject = (id: number) => {
-  router.push('/professor/subject/' + id);
+  router.push('/professor/subject/8458/' + id);
+};
+const goRef = (id: number) => {
+  router.push('/professor/reference/8458/' + id);
+};
+const giveScore = () => {
+  console.log(studentScore.value);
+  console.log(scoreData);
 };
 </script>
 <template>
@@ -76,6 +112,30 @@ const goSubject = (id: number) => {
           @click="goCourseDesc(8458)"
         />
       </div>
+      <div class="board q-mt-md">
+        <div class="row items-center justify-between">
+          <div class="title">자료실</div>
+          <q-btn flat color="kbrown" label="글 작성" @click="goWriteRef(8458)" />
+        </div>
+
+        <q-separator color="#d1d1d1" size="2" />
+        <q-list dense padding separator>
+          <q-item
+            v-for="(item, index) in references"
+            :key="index"
+            @click="goRef(item.id)"
+            clickable
+            v-ripple
+          >
+            <q-item-section>{{ item.title }}</q-item-section>
+            <q-item-section>
+              <div class="row justify-around items-center">
+                {{ item.time }}
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </div>
       <div class="row q-mt-md">
         <div
           :class="{
@@ -86,10 +146,10 @@ const goSubject = (id: number) => {
         >
           <div class="board">
             <div class="row items-center justify-between">
-                <div class="title">공지사항</div>
-                <q-btn flat color="kbrown" label="글 작성" @click="goWriteNotice(8458)"/>
+              <div class="title">공지사항</div>
+              <q-btn flat color="kbrown" label="글 작성" @click="goWriteNotice(8458)" />
             </div>
-            
+
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
               <q-item
@@ -119,10 +179,10 @@ const goSubject = (id: number) => {
         >
           <div class="board">
             <div class="row items-center justify-between">
-                <div class="title">과제</div>
-                <q-btn flat color="kbrown" label="과제 추가" @click="goAddSubject(8458)"/>
+              <div class="title">과제</div>
+              <q-btn flat color="kbrown" label="과제 추가" @click="goAddSubject(8458)" />
             </div>
-            
+
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
               <q-item
@@ -140,6 +200,164 @@ const goSubject = (id: number) => {
             </q-list>
           </div>
         </div>
+      </div>
+      <div class="board q-mt-md">
+        <div class="row items-center justify-between">
+          <div class="title q-mb-sm">성적 부여</div>
+          <q-btn flat color="kbrown" label="부여하기" @click="giveScore()" />
+        </div>
+        <q-separator></q-separator>
+        <q-list dense padding separator>
+          <q-item
+            v-for="(item, index) in students"
+            :key="index"
+            clickable
+            v-ripple
+            ref="studentScore"
+          >
+            <q-item-section>
+              <div class="row items-center">
+                <div class="col">
+                  {{ item.studentId }}
+                </div>
+                <div class="col">
+                  {{ item.studentName }}
+                </div>
+                <div class="col">부여된 점수 : {{ item.score }}</div>
+              </div>
+              <div class="row justify-center">
+                <div class="q-gutter-sm">
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="A+"
+                    label="A+"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="A"
+                    label="A"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="B+"
+                    label="B+"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="B"
+                    label="B"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="C+"
+                    label="C+"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="C"
+                    label="C"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="D+"
+                    label="D+"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="D"
+                    label="D"
+                  />
+                  <q-radio
+                    left-label
+                    v-model="studentScore[index]"
+                    @update:model-value="
+                      () => {
+                        scoreData.push({
+                          studentId: item.studentId,
+                          score: studentScore[index]
+                        });
+                      }
+                    "
+                    val="F"
+                    label="F"
+                  />
+                </div>
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </div>
     </div>
   </div>

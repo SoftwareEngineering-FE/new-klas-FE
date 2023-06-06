@@ -22,9 +22,12 @@ import NoticeViewPro from '../views/professor/components/NoticeViewPro.vue';
 import SubjectViewPro from '../views/professor/components/SubjectViewPro.vue';
 import CourseDescViewPro from '@/views/professor/components/CourseDescViewPro.vue';
 import WriteNoticePro from '@/views/professor/components/WriteNoticePro.vue';
-import AddSubjectPro from '@/views/professor/components/AddSubjectPro.vue'
-import UpdateNoticePro from '@/views/professor/components/UpdateNoticePro.vue'
+import AddSubjectPro from '@/views/professor/components/AddSubjectPro.vue';
+import UpdateNoticePro from '@/views/professor/components/UpdateNoticePro.vue';
 import UpdateSubjectPro from '@/views/professor/components/UpdateSubjectPro.vue';
+import WriteRefPro from '@/views/professor/components/WriteRefPro.vue';
+import UpdateRefPro from '@/views/professor/components/UpdateRefPro.vue';
+import RefViewPro from '@/views/professor/components/RefViewPro.vue';
 
 import { useLoginStore } from '../stores/login';
 
@@ -48,11 +51,11 @@ const router = createRouter({
       children: [
         {
           path: '',
-          component: HomeViewStu,
+          component: HomeViewStu
         },
         {
           path: 'class',
-          component: ClassViewStu,
+          component: ClassViewStu
         },
         {
           path: 'notice/:id',
@@ -66,16 +69,16 @@ const router = createRouter({
         },
         {
           path: 'coursedesc',
-          component:CourseDescViewStu,
+          component: CourseDescViewStu,
           props: true
         },
         {
           path: 'score',
-          component: ScoreViewStu,
+          component: ScoreViewStu
         },
         {
-          path:'registration',
-          component:RegistrationViewStu
+          path: 'registration',
+          component: RegistrationViewStu
         }
       ],
       beforeEnter: (to, from, next) => {
@@ -94,47 +97,62 @@ const router = createRouter({
       children: [
         {
           path: '',
-          component: HomeViewPro,
+          component: HomeViewPro
         },
         {
           path: 'class',
-          component: ClassViewPro,
+          component: ClassViewPro
         },
         {
-          path: 'notice/:id',
+          path: 'notice/:classId/:id',
           component: NoticeViewPro,
           props: true
         },
         {
-          path: 'subject/:id',
+          path: 'subject/:classId/:id',
           component: SubjectViewPro,
           props: true
         },
         {
+          path: 'reference/:classId/:id',
+          component: RefViewPro,
+          props: true
+        },
+        {
           path: 'coursedesc/:id',
-          component:CourseDescViewPro,
+          component: CourseDescViewPro,
           props: true
         },
         {
           path: 'writenotice/:id',
-          component:WriteNoticePro,
+          component: WriteNoticePro,
           props: true
         },
         {
           path: 'updatenotice/:classId/:id',
-          component:UpdateNoticePro,
+          component: UpdateNoticePro,
           props: true
         },
         {
           path: 'addsubject/:id',
-          component:AddSubjectPro,
+          component: AddSubjectPro,
           props: true
         },
         {
           path: 'updatesubject/:classId/:id',
-          component:UpdateSubjectPro,
+          component: UpdateSubjectPro,
           props: true
         },
+        {
+          path: 'writeref/:id',
+          component: WriteRefPro,
+          props: true
+        },
+        {
+          path: 'updateref/:classId/:id',
+          component: UpdateRefPro,
+          props: true
+        }
       ],
       beforeEnter: (to, from, next) => {
         const login = useLoginStore();
