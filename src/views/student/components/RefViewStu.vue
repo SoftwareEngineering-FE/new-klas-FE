@@ -2,37 +2,40 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-const selectedClass = ref('소프트웨어공학');
-const classes = ['소프트웨어공학', '운영체제'];
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
+
 const q = useQuasar();
 const router = useRouter();
 const postData = {
-  className: '소프트웨어공학',
-  classDesc: '앞으로 강의 진행은 ,,,'
+  title: '1주차 강의 자료',
+  writer: '홍길동',
+  date: '2023-05-12',
+  content: '1주차 강의 자료입니다.'
 };
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="row q-mb-md">
-          <div class="select-box q-mr-md">
-            <q-select color="main" v-model="selectedSemester" :options="semesters" dense />
-          </div>
-
-          <div class="select-box">
-            <q-select color="main" v-model="selectedClass" :options="classes" dense />
-          </div>
-        </div>
+        <div class="title">강의 자료실</div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ postData.className }} 강의계획서</div>
+          <div class="post-title">{{ postData.title }}</div>
+          <div class="row">
+            <div class="q-pr-md">작성자 : {{ postData.writer }}</div>
+            <div class="">작성일 : {{ postData.date }}</div>
+          </div>
         </div>
-        <div class="post-body">{{ postData.classDesc }}</div>
+        <div class="post-body">{{ postData.content }}</div>
         <q-separator></q-separator>
-        <div class="post-foot row justify-end"></div>
+        <div class="post-foot row justify-end">
+          <q-btn
+            class="q-ma-sm"
+            @click="router.back()"
+            padding="3px 12px"
+            color="kbrown"
+            label="돌아가기"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -72,8 +75,5 @@ const postData = {
 .post-body {
   padding: 20px 15px;
   font-size: 14px;
-}
-.select-box {
-  width: 200px;
 }
 </style>

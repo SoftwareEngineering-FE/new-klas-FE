@@ -33,12 +33,27 @@ const subjects = [
     id: 2
   }
 ];
+const references = [
+  {
+    title: '1주차 강의 자료',
+    time: '2023-05-12',
+    id: 1
+  },
+  {
+    title: '2주차 강의 자료',
+    time: '2023-05-13',
+    id: 2
+  }
+];
 const goNotice = (id: number) => {
   router.push('/student/notice/' + id);
 };
 const goSubject = (id: number)=>{
   router.push('/student/subject/' + id);
 }
+const goRef = (id: number) => {
+  router.push('/student/reference/8458/' + id);
+};
 </script>
 <template>
   <div class="background">
@@ -55,6 +70,29 @@ const goSubject = (id: number)=>{
             <q-select color="main" v-model="selectedClass" :options="classes" dense />
           </div>
         </div>
+      </div>
+      <div class="board q-mt-md">
+        <div class="row items-center justify-between">
+          <div class="title">자료실</div>
+        </div>
+
+        <q-separator color="#d1d1d1" size="2" />
+        <q-list dense padding separator>
+          <q-item
+            v-for="(item, index) in references"
+            :key="index"
+            @click="goRef(item.id)"
+            clickable
+            v-ripple
+          >
+            <q-item-section>{{ item.title }}</q-item-section>
+            <q-item-section>
+              <div class="row justify-around items-center">
+                {{ item.time }}
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
       </div>
       <div class="row q-mt-md">
         <div

@@ -15,6 +15,7 @@ import NoticeViewStu from '../views/student/components/NoticeViewStu.vue';
 import SubjectViewStu from '../views/student/components/SubjectViewStu.vue';
 import RegistrationViewStu from '@/views/student/RegistrationViewStu.vue';
 import CourseDescViewStu from '@/views/student/components/CourseDescViewStu.vue';
+import RefViewStu from '@/views/student/components/RefViewStu.vue';
 
 import HomeViewPro from '../views/professor/HomeViewPro.vue';
 import ClassViewPro from '@/views/professor/ClassViewPro.vue';
@@ -66,6 +67,11 @@ const router = createRouter({
           path: 'subject/:id',
           component: SubjectViewStu,
           props: true
+        },
+        {
+          path: 'reference/:classId/:id',
+          component:RefViewStu,
+          props:true
         },
         {
           path: 'coursedesc',
