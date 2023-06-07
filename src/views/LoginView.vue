@@ -13,8 +13,8 @@ const goSignup = () => {
 const goHome = async () => {
   await axios
     .post('http://localhost:8080/api/user/login', {
-      studentId: 2018202014,
-      password: '1234'
+      studentId: inputId.value,
+      password: inputPw.value
     })
     .then((res) => {
       //if student
