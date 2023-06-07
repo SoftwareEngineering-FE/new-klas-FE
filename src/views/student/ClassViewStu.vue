@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref, onUpdated } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { useLoginStore } from '../../stores/login';
+const login = useLoginStore();
 
 const q = useQuasar();
 const router = useRouter();
 const selectedClass = ref('소프트웨어공학');
-const classes = ['소프트웨어공학', '운영체제'];
 const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
+const semesters = ref(['2023년도 1학기']);
+const classData = ref();
+const classes1 = ref(new Map());
+const classMap = new Map();
 const notices = [
   {
     title: '오늘 휴강',
@@ -48,12 +53,39 @@ const references = [
 const goNotice = (id: number) => {
   router.push('/student/notice/' + id);
 };
-const goSubject = (id: number)=>{
+const goSubject = (id: number) => {
   router.push('/student/subject/' + id);
-}
+};
 const goRef = (id: number) => {
   router.push('/student/reference/8458/' + id);
 };
+const getPost = async () => {
+  // imgList.value = []
+  await axios
+    .get('http://localhost:8080/api/lecture/' + login.loginId)
+    .then((res) => {
+      console.log(res.data);
+      classData.value = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const setSemesterClass = async () => {
+  classData.value.semesters.forEach((el: any) => {
+    semesters.value.push(el.semesterName);
+    classes1.value.set(el.semesterName, []);
+    el.classes.forEach((cl: any) => {
+      classes1.value.get(el.semesterName).push(cl.className);
+      classMap.set(cl.className, cl.classId);
+    });
+  });
+};
+onMounted(() => {
+  getPost();
+  setSemesterClass();
+});
+onUpdated(() => {});
 </script>
 <template>
   <div class="background">
@@ -67,7 +99,12 @@ const goRef = (id: number) => {
           </div>
 
           <div class="select-box">
-            <q-select color="main" v-model="selectedClass" :options="classes" dense />
+            <q-select
+              color="main"
+              v-model="selectedClass"
+              :options="classes1.get(selectedSemester)"
+              dense
+            />
           </div>
         </div>
       </div>
@@ -106,7 +143,13 @@ const goRef = (id: number) => {
             <div class="title">공지사항</div>
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
-              <q-item v-for="(item, index) in notices" :key="index" @click="goNotice(item.id)" clickable v-ripple>
+              <q-item
+                v-for="(item, index) in notices"
+                :key="index"
+                @click="goNotice(item.id)"
+                clickable
+                v-ripple
+              >
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
                   <div class="row justify-around items-center">
@@ -129,7 +172,13 @@ const goRef = (id: number) => {
             <div class="title">과제</div>
             <q-separator color="#d1d1d1" size="2" />
             <q-list dense padding separator>
-              <q-item v-for="(item, index) in subjects" :key="index" @click="goSubject(item.id)" clickable v-ripple>
+              <q-item
+                v-for="(item, index) in subjects"
+                :key="index"
+                @click="goSubject(item.id)"
+                clickable
+                v-ripple
+              >
                 <q-item-section>{{ item.title }}</q-item-section>
                 <q-item-section>
                   <div class="row justify-around items-center">~{{ item.deadline }} 까지</div>
