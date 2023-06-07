@@ -12,14 +12,7 @@ const inputEmail = ref('');
 const router = useRouter();
 const userType = ref('');
 const goLogin = async () => {
-  console.log(
-    inputBirth.value.slice(0, 4) +
-      '-' +
-      inputBirth.value.slice(4, 6) +
-      '-' +
-      inputBirth.value.slice(6)
-  );
-  const result = axios
+  await axios
     .post('http://localhost:8080/api/user/signUp', {
       studentId: inputId.value,
       password: inputPw.value,

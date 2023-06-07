@@ -18,12 +18,14 @@ const goHome = async () => {
     })
     .then((res) => {
       //if student
-      if (res.status == 200 && res.data.role == 0) {
+      if (res.status === 200 && res.data.role == 0) {
         const login = useLoginStore();
         login.setLogin(true);
         login.setId(inputId.value);
         router.push('/student');
-      } else if (res.status == 200 && res.data.role == 1) {
+      }
+      //if professor
+      else if (res.status === 200 && res.data.role == 1) {
         const login = useLoginStore();
         login.setLogin(true);
         login.setId(inputId.value);
