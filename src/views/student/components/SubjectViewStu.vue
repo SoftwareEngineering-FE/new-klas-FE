@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useLoginStore } from '../../../stores/login';
+const login = useLoginStore();
 const props = defineProps({
   id: {
     type: String,
@@ -11,8 +13,6 @@ const props = defineProps({
 });
 const inputTitle = ref('');
 const inputFile = ref();
-const inputContext = ref('');
-const q = useQuasar();
 const router = useRouter();
 const title = ref('');
 const writer = ref('');
@@ -33,15 +33,24 @@ const getData = async () => {
 onMounted(() => {
   getData();
 });
-const subjectData = {
-  title: '3차 프로젝트',
-  writer: '홍길동',
-  date: '2023-05-12',
-  deadline: '2023-07-30',
-  className: '소프트웨어공학',
-  content: '학사 관리 시스템을 구현해보시오.'
+const submit = async () => {
+  const data = new FormData();
+  console.log(inputFile.value);
+  data.append('studentId', login.loginId + '');
+  data.append('postId', props.id + '');
+  data.append('title', title.value);
+  data.append('file', inputFile.value);
+  await axios
+    .post('http://localhost:8080/file/upload', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((res) => {})
+    .catch((err) => {
+      console.log(err);
+    });
 };
-const submit = () => {};
 </script>
 <template>
   <div class="background">
@@ -61,7 +70,6 @@ const submit = () => {};
         <q-separator></q-separator>
         <div class="board q-mt-md q-pa-md">
           <q-input outlined v-model="inputTitle" placeholder="제목" dense color="kbrown" />
-          <q-input class="q-mt-xs" v-model="inputContext" outlined type="textarea" color="kbrown" />
           <q-input
             class="q-mt-xs"
             @update:model-value="
@@ -69,7 +77,7 @@ const submit = () => {};
                 inputFile = val;
               }
             "
-            model-value="inputFile"
+            model-value=""
             color="kbrown"
             multiple
             filled
