@@ -11,7 +11,6 @@ const inputPhone = ref('');
 const inputEmail = ref('');
 const router = useRouter();
 const userType = ref('');
-const success = ref();
 const goLogin = async () => {
   console.log(
     inputBirth.value.slice(0, 4) +
