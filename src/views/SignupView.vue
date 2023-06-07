@@ -36,7 +36,7 @@ const goLogin = async () => {
       departmentName: '컴퓨터정보공학부'
     })
     .then((res) => {
-      console.log(res.data);
+      console.log(res.data, res.status);
     })
     .catch((err) => {
       console.log(err);
