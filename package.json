@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.15.11",
+    "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "pinia": "^2.0.33",
     "quasar": "^2.11.7",

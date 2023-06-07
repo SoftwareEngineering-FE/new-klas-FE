@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 const inputId = ref('');
 const inputPw = ref('');
 const inputName = ref('');
@@ -9,13 +10,29 @@ const inputPwCheck = ref('');
 const inputPhone = ref('');
 const inputEmail = ref('');
 const router = useRouter();
-const goLogin = () => {
-  router.push('/');
+const userType = ref('');
+const goLogin = async () => {
+  const result = axios.post('http://localhost:8090/api/user/signUp', {
+    studentId: inputId.value,
+    password: inputPw.value,
+    name: inputName.value,
+    birth: inputBirth.value,
+    address: '서울',
+    phoneNumber: inputPhone.value,
+    role: userType.value,
+    departmentName: '컴퓨터정보공학부'
+  });
+  console.log(result);
+  // router.push('/');
 };
 </script>
 <template>
   <div class="container flex flex-center column">
     <q-img src="/svg/logo.svg" width="140px" />
+    <div class="q-gutter-sm color-white">
+      <q-radio color="white" dark left-label v-model="userType" val="학생" label="학생" />
+      <q-radio color="white" dark left-label v-model="userType" val="교수" label="교수" />
+    </div>
     <q-input
       class="q-mt-md"
       color="kbrown"
@@ -64,18 +81,6 @@ const goLogin = () => {
       :input-style="{
         color: 'white'
       }"
-    />
-    <q-input
-      class="q-mt-xs"
-      color="kbrown"
-      :dense="true"
-      v-model="inputPwCheck"
-      label="비밀번호 확인 :"
-      label-color="white"
-      type="password"
-      :input-style="{
-        color: 'white'
-      }"
     /><q-input
       class="q-mt-xs"
       color="kbrown"
@@ -107,6 +112,9 @@ const goLogin = () => {
   </div>
 </template>
 <style scoped lang="scss">
+.color-white {
+  color: white;
+}
 .container {
   background-color: black;
   height: 100vh;
