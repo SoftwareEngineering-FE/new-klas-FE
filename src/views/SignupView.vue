@@ -38,16 +38,17 @@ const goLogin = async () => {
     })
     .then((res) => {
       console.log(res.status);
-      success.value = res.status;
+      if (res.status == 201) {
+        router.push('/');
+      } else {
+        alert('다시 해주세요.');
+      }
     })
     .catch((err) => {
       console.log(err);
+      alert('다시 해주세요.');
     });
-  if (success.value === 201) {
-    router.push('/');
-  } else {
-    alert('다시 해주세요.');
-  }
+
   // router.push('/');
 };
 </script>
