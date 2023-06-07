@@ -12,12 +12,24 @@ const inputEmail = ref('');
 const router = useRouter();
 const userType = ref('');
 const goLogin = async () => {
+  console.log(
+    inputBirth.value.slice(0, 4) +
+      '-' +
+      inputBirth.value.slice(4, 6) +
+      '-' +
+      inputBirth.value.slice(6)
+  );
   const result = axios
     .post('http://localhost:8080/api/user/signUp', {
       studentId: inputId.value,
       password: inputPw.value,
       name: inputName.value,
-      birth: inputBirth.value,
+      birth:
+        inputBirth.value.slice(0, 4) +
+        '-' +
+        inputBirth.value.slice(4, 6) +
+        '-' +
+        inputBirth.value.slice(6),
       address: '서울',
       phoneNumber: inputPhone.value,
       role: userType.value,
