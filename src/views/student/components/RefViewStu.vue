@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
-
 const q = useQuasar();
 const router = useRouter();
 const postData = {

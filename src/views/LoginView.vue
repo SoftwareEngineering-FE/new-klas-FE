@@ -2,19 +2,46 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useLoginStore } from '../stores/login';
+import axios from 'axios';
+
 const inputId = ref();
 const inputPw = ref('');
 const router = useRouter();
 const goSignup = () => {
   router.push('/signup');
 };
-const goHome = () => {
+const goHome = async () => {
+  await axios
+    .post('http://localhost:8080/api/user/login', {
+      studentId: 2018202014,
+      password: '1234'
+    })
+    .then((res) => {
+      //if student
+      if (res.status == 200 && res.data.role == 0) {
+        const login = useLoginStore();
+        login.setLogin(true);
+        login.setId(inputId.value);
+        router.push('/student');
+      } else if (res.status == 200 && res.data.role == 1) {
+        const login = useLoginStore();
+        login.setLogin(true);
+        login.setId(inputId.value);
+        router.push('/professor');
+      } else {
+        alert('다시 시도해주세요');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      alert('다시 시도해주세요');
+    });
   //로그인 데이터 확인
-  const login = useLoginStore();
-  login.setLogin(true);
-  login.setId(inputId.value);
+  // const login = useLoginStore();
+  // login.setLogin(true);
+  // login.setId(inputId.value);
   // if (student) {
-  router.push('/student');
+  // router.push('/student');
   // }
   // else if (admin)
   // router.push('/admin');
