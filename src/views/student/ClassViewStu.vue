@@ -66,12 +66,13 @@ const getPost = async () => {
     .then((res) => {
       console.log(res.data);
       classData.value = res.data;
+      console.log('classData : ', classData.value);
     })
     .catch((err) => {
       console.log(err);
     });
 };
-const setSemesterClass = async () => {
+const setSemesterClass = () => {
   classData.value.semesters.forEach((el: any) => {
     semesters.value.push(el.semesterName);
     classes1.value.set(el.semesterName, []);
@@ -84,6 +85,9 @@ const setSemesterClass = async () => {
 onMounted(() => {
   getPost();
   setSemesterClass();
+  console.log(classData.value);
+  console.log(semesters.value);
+  console.log(classes1.value);
 });
 onUpdated(() => {});
 </script>
