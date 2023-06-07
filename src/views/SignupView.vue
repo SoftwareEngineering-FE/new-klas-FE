@@ -12,17 +12,20 @@ const inputEmail = ref('');
 const router = useRouter();
 const userType = ref('');
 const goLogin = async () => {
-  const result = axios.post('http://localhost:8090/api/user/signUp', {
-    studentId: inputId.value,
-    password: inputPw.value,
-    name: inputName.value,
-    birth: inputBirth.value,
-    address: '서울',
-    phoneNumber: inputPhone.value,
-    role: userType.value,
-    departmentName: '컴퓨터정보공학부'
-  });
-  console.log(result);
+  const result = axios
+    .post('http://localhost:8080/api/user/signUp', {
+      studentId: inputId.value,
+      password: inputPw.value,
+      name: inputName.value,
+      birth: inputBirth.value,
+      address: '서울',
+      phoneNumber: inputPhone.value,
+      role: userType.value,
+      departmentName: '컴퓨터정보공학부'
+    })
+    .then((res) => {
+      console.log(res.data);
+    });
   // router.push('/');
 };
 </script>
