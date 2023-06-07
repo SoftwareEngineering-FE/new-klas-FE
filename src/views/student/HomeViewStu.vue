@@ -1,70 +1,77 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useLoginStore } from '../../stores/login';
-const login = useLoginStore();
-console.log(login.loginId)
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
-const notices = [
-  {
-    title: '오늘 휴강',
-    name: '소프트웨어공학',
-    time: '2023-05-12',
-    id: 1
-  },
-  {
-    title: '내일도 휴강',
-    name: '소프트웨어공학',
-    time: '2023-05-13',
-    id: 2
-  }
-];
-const timeTable = [
-  {
-    classId: 8458,
-    className: '소프트웨어공학',
-    professor: '이기훈',
-    when: [
-      {
-        day: 0, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 1,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    classId: 8459,
-    className: '소프트웨어공학2',
-    professor: '이기훈',
-    when: [
-      {
-        day: 0, // 월 0 화 1 수 2 ...
-        time: [4, 5, 7] // 0교시 1교시
-      },
-      {
-        day: 1,
-        time: [3, 4]
-      }
-    ]
-  }
-];
+import axios from 'axios';
+import router from '@/router';
 
-const table: any = [];
-for (let i = 0; i < 6; i++) {
-  table[i] = [];
-  for (let j = 0; j < 10; j++) {
-    table[i][j] = {
-      lectureName: '',
-      professorName: '',
-      term: 0
-    };
-  }
-}
+const login = useLoginStore();
+const selectedSemester = ref('');
+const semesters = ref([]);
+const notices = ref([]);
+const timeTable = ref([]);
+
+const getSemesters = async () => {
+  await axios.get('http://localhost:8080/main/semesters?studentId=' + login.loginId).then((res) => {
+    semesters.value = res.data.sort((a: any, b: any) => {
+      const upperCaseA = a.toUpperCase();
+      const upperCaseB = b.toUpperCase();
+
+      if (upperCaseA < upperCaseB) return 1;
+      else if (upperCaseA > upperCaseB) return -1;
+      else return 0;
+    });
+    selectedSemester.value = semesters.value[0];
+  });
+};
+
+const getTableData = async () => {
+  await axios
+    .get(
+      'http://localhost:8080/main/schedule?studentId=' +
+        login.loginId +
+        '&year=' +
+        selectedSemester.value.slice(0, 4) +
+        '&semester=' +
+        selectedSemester.value.slice(7, 8)
+    )
+    .then((res) => {
+      console.log(selectedSemester.value);
+      console.log(res.data);
+      timeTable.value = res.data;
+
+      setTable();
+    });
+};
+const getNotice = async () => {
+  await axios
+    .get('http://localhost:8080/main/notice?studentId=' + login.loginId)
+    .then((res) => {
+      notices.value = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+onMounted(() => {
+  getNotice();
+  getSemesters();
+});
+watch(selectedSemester, () => {
+  getTableData();
+});
 const setTable = () => {
-  timeTable.forEach((lecture) => {
+  const table: any = [];
+  for (let i = 0; i < 6; i++) {
+    table[i] = [];
+    for (let j = 0; j < 10; j++) {
+      table[i][j] = {
+        lectureName: '',
+        professorName: '',
+        term: 0
+      };
+    }
+  }
+  timeTable.value.forEach((lecture: any) => {
     lecture.when.forEach((t) => {
       let start = t.time[0];
       let exStart = t.time[0];
@@ -86,9 +93,12 @@ const setTable = () => {
       table[t.day][start].term = countTerm;
     });
   });
+  return table;
 };
-setTable();
-console.log(table);
+const tableRef = computed(() => setTable());
+const goNotice = async (id: string) => {
+  router.push('/student/notice/' + id);
+};
 </script>
 <template>
   <div class="background">
@@ -97,7 +107,13 @@ console.log(table);
         <div class="title">최근 공지사항</div>
         <q-separator color="#d1d1d1" size="2" />
         <q-list dense padding separator>
-          <q-item v-for="(item, index) in notices" :key="index" clickable v-ripple>
+          <q-item
+            v-for="(item, index) in notices"
+            :key="index"
+            clickable
+            v-ripple
+            @click="goNotice(item.id)"
+          >
             <q-item-section>{{ item.title }}</q-item-section>
             <q-item-section>
               <div class="row justify-around items-center">
@@ -141,7 +157,7 @@ console.log(table);
               <div class="time">8</div>
               <div class="time">9</div>
             </div>
-            <div class="col" v-for="(el, index) in table" :key="index">
+            <div class="col" v-for="(el, index) in tableRef" :key="index">
               <div class="class-box" v-for="(el2, index2) in el" :key="index2">
                 <div :class="{ class1: el2.term === 1, class2: el2.term === 2 }" clickable v-ripple>
                   {{ el2.lectureName }}

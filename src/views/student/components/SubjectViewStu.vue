@@ -1,39 +1,63 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
 const inputTitle = ref('');
 const inputFile = ref();
 const inputContext = ref('');
 const q = useQuasar();
 const router = useRouter();
+const title = ref('');
+const writer = ref('');
+const time = ref('');
+const deadline = ref('');
+const className = ref('');
+const content = ref('');
+const getData = async () => {
+  await axios.get('http://localhost:8080/api/assignment/' + props.id).then((res) => {
+    title.value = res.data.title;
+    writer.value = res.data.writer;
+    time.value = res.data.time;
+    className.value = res.data.className;
+    content.value = res.data.content;
+    deadline.value = res.data.deadline;
+  });
+};
+onMounted(() => {
+  getData();
+});
 const subjectData = {
   title: '3차 프로젝트',
   writer: '홍길동',
   date: '2023-05-12',
   deadline: '2023-07-30',
-  className : '소프트웨어공학',
+  className: '소프트웨어공학',
   content: '학사 관리 시스템을 구현해보시오.'
 };
-const submit = () =>{
-
-}
+const submit = () => {};
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="title">{{subjectData.className}} 과제</div>
+        <div class="title">{{ className }} 과제</div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ subjectData.title }}</div>
+          <div class="post-title">{{ title }}</div>
           <div class="row">
-            <div class="q-pr-md">작성자 : {{ subjectData.writer }}</div>
-            <div class="q-pr-md">작성일 : {{ subjectData.date }}</div>
-            <div class="">기한 : ~{{ subjectData.deadline }}</div>
+            <div class="q-pr-md">작성자 : {{ writer }}</div>
+            <div class="q-pr-md">작성일 : {{ time }}</div>
+            <div class="">기한 : ~{{ deadline }}</div>
           </div>
         </div>
-        <div class="post-body">{{ subjectData.content }}</div>
+        <div class="post-body">{{ content }}</div>
         <q-separator></q-separator>
         <div class="board q-mt-md q-pa-md">
           <q-input outlined v-model="inputTitle" placeholder="제목" dense color="kbrown" />

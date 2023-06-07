@@ -93,6 +93,15 @@ const getSubject = async () => {
     });
 };
 const setSemesterClass = () => {
+  console.log(classData.value);
+  classData.value.sort((a: any, b: any) => {
+    const upperCaseA = a.semester.toUpperCase();
+    const upperCaseB = b.semester.toUpperCase();
+
+    if (upperCaseA < upperCaseB) return 1;
+    else if (upperCaseA > upperCaseB) return -1;
+    else return 0;
+  });
   classData.value.forEach((el: any, index) => {
     if (index === 0) selectedSemester.value = el.semester;
     semesters.value.push(el.semester);

@@ -19,8 +19,8 @@ const login = useLoginStore();
 const getScores = async () => {
   await axios.get('http://localhost:8080/grade/info?studentId=' + login.loginId).then((res) => {
     rows.value = res.data.gradeAverages;
-    console.log(
-      rows.value.sort((a: any, b: any) => {
+    rows.value
+      .sort((a: any, b: any) => {
         const upperCaseA = a.semesterName.toUpperCase();
         const upperCaseB = b.semesterName.toUpperCase();
 
@@ -28,12 +28,19 @@ const getScores = async () => {
         else if (upperCaseA < upperCaseB) return -1;
         else return 0;
       })
-    );
-    rows.value.sort().forEach((row: { semesterName: string; gradeAverage: number }) => {
-      labels.value.push(row.semesterName.split(' ')[0] + '\n' + row.semesterName.split(' ')[1]);
-      datasets[0].data.push(row.gradeAverage);
-    });
+      .forEach((row: { semesterName: string; gradeAverage: number }) => {
+        labels.value.push(row.semesterName.split(' ')[0] + '\n' + row.semesterName.split(' ')[1]);
+        datasets[0].data.push(row.gradeAverage);
+      });
     semesters.value = res.data.grades;
+    semesters.value.sort((a: any, b: any) => {
+      const upperCaseA = a.semesterName.toUpperCase();
+      const upperCaseB = b.semesterName.toUpperCase();
+
+      if (upperCaseA < upperCaseB) return 1;
+      else if (upperCaseA > upperCaseB) return -1;
+      else return 0;
+    });
   });
 };
 onMounted(() => {
@@ -156,7 +163,7 @@ const semesters = ref([]);
           </colgroup>
           <thead>
             <tr>
-              <th class="semester" colspan="9">2023학년도 1<span>학기</span></th>
+              <th class="semester" colspan="9">{{ semester.semesterName }}</th>
             </tr>
             <tr>
               <th class="ths">과목명</th>
