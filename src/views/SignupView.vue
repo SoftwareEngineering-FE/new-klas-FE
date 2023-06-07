@@ -11,6 +11,7 @@ const inputPhone = ref('');
 const inputEmail = ref('');
 const router = useRouter();
 const userType = ref('');
+const success = ref();
 const goLogin = async () => {
   console.log(
     inputBirth.value.slice(0, 4) +
@@ -36,11 +37,17 @@ const goLogin = async () => {
       departmentName: '컴퓨터정보공학부'
     })
     .then((res) => {
-      console.log(res.data, res.status);
+      console.log(res.status);
+      success.value = res.status;
     })
     .catch((err) => {
       console.log(err);
     });
+  if (success.value === 201) {
+    router.push('/');
+  } else {
+    alert('다시 해주세요.');
+  }
   // router.push('/');
 };
 </script>
