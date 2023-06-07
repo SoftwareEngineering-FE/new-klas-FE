@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, onUpdated } from 'vue';
+import { onMounted, ref, onUpdated, watch } from 'vue';
+import type { Ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -8,36 +9,26 @@ const login = useLoginStore();
 
 const q = useQuasar();
 const router = useRouter();
-const selectedClass = ref('소프트웨어공학');
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ref(['2023년도 1학기']);
-const classData = ref();
-const classes1 = ref(new Map());
+const selectedClass = ref('');
+const selectedSemester = ref('');
+const semesters: Ref<any[]> = ref([]);
+const classData = ref([]);
+const classes1 = ref(new Map()); // semester : [class1, class2, class3]
 const classMap = new Map();
-const notices = [
-  {
-    title: '오늘 휴강',
-    time: '2023-05-12',
-    id: 1
-  },
-  {
-    title: '내일도 휴강',
-    time: '2023-05-13',
-    id: 2
-  }
-];
-const subjects = [
-  {
-    title: '1차 프젝',
-    deadline: '2023-05-12',
-    id: 1
-  },
-  {
-    title: '2차 프젝',
-    deadline: '2023-05-13',
-    id: 2
-  }
-];
+const notices = ref([]);
+const subjects = ref([]);
+// const subjects = [
+//   {
+//     title: '1차 프젝',
+//     deadline: '2023-05-12',
+//     id: 1
+//   },
+//   {
+//     title: '2차 프젝',
+//     deadline: '2023-05-13',
+//     id: 2
+//   }
+// ];
 const references = [
   {
     title: '1주차 강의 자료',
@@ -59,37 +50,70 @@ const goSubject = (id: number) => {
 const goRef = (id: number) => {
   router.push('/student/reference/8458/' + id);
 };
-const getPost = async () => {
-  // imgList.value = []
+const getData = async () => {
   await axios
     .get('http://localhost:8080/api/lecture/' + login.loginId)
     .then((res) => {
+      classData.value = res.data.semesters;
+      setSemesterClass();
+      getNotice();
+      getSubject();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getNotice = async () => {
+  await axios
+    .get(
+      'http://localhost:8080/api/notice/' + login.loginId + '/' + classMap.get(selectedClass.value)
+    )
+    .then((res) => {
+      notices.value = res.data.notices;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getSubject = async () => {
+  console.log(selectedClass.value);
+  await axios
+    .get(
+      'http://localhost:8080/api/assignment/' +
+        login.loginId +
+        '/' +
+        classMap.get(selectedClass.value)
+    )
+    .then((res) => {
       console.log(res.data);
-      classData.value = res.data;
-      console.log('classData : ', classData.value);
+      subjects.value = res.data.subjects;
     })
     .catch((err) => {
       console.log(err);
     });
 };
 const setSemesterClass = () => {
-  classData.value.semesters.forEach((el: any) => {
-    semesters.value.push(el.semesterName);
-    classes1.value.set(el.semesterName, []);
-    el.classes.forEach((cl: any) => {
-      classes1.value.get(el.semesterName).push(cl.className);
+  classData.value.forEach((el: any, index) => {
+    if (index === 0) selectedSemester.value = el.semester;
+    semesters.value.push(el.semester);
+    classes1.value.set(el.semester, []);
+    el.classes.forEach((cl: any, cindex: number) => {
+      if (cindex === 0 && index === 0) selectedClass.value = cl.className;
+      classes1.value.get(el.semester).push(cl.className);
       classMap.set(cl.className, cl.classId);
     });
   });
 };
 onMounted(() => {
-  getPost();
-  setSemesterClass();
-  console.log(classData.value);
-  console.log(semesters.value);
-  console.log(classes1.value);
+  getData();
 });
-onUpdated(() => {});
+watch(selectedSemester, () => {
+  selectedClass.value = classes1.value.get(selectedSemester.value)[0];
+});
+watch(selectedClass, () => {
+  getNotice();
+  getSubject();
+});
 </script>
 <template>
   <div class="background">

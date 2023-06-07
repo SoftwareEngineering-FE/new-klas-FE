@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
+import type { Ref } from 'vue';
+import axios from 'axios';
 import type { QTableProps } from 'quasar';
 import {
   Chart as ChartJS,
@@ -12,15 +14,41 @@ import {
   Legend
 } from 'chart.js';
 import { Line } from 'vue-chartjs';
+import { useLoginStore } from '../../stores/login';
+const login = useLoginStore();
+const getScores = async () => {
+  await axios.get('http://localhost:8080/grade/info?studentId=' + login.loginId).then((res) => {
+    rows.value = res.data.gradeAverages;
+    console.log(
+      rows.value.sort((a: any, b: any) => {
+        const upperCaseA = a.semesterName.toUpperCase();
+        const upperCaseB = b.semesterName.toUpperCase();
+
+        if (upperCaseA > upperCaseB) return 1;
+        else if (upperCaseA < upperCaseB) return -1;
+        else return 0;
+      })
+    );
+    rows.value.sort().forEach((row: { semesterName: string; gradeAverage: number }) => {
+      labels.value.push(row.semesterName.split(' ')[0] + '\n' + row.semesterName.split(' ')[1]);
+      datasets[0].data.push(row.gradeAverage);
+    });
+    semesters.value = res.data.grades;
+  });
+};
+onMounted(() => {
+  getScores();
+});
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 // 테이블 속성 정의
 const columns: QTableProps['columns'] = [
   {
-    name: 'name',
+    name: 'semesterName',
     required: true,
     label: '학기',
     align: 'left',
-    field: 'name',
+    field: 'semesterName',
     sortable: true
   },
   { name: 'totalGrade', align: 'center', label: '취득 학점', field: 'totalGrade', sortable: true },
@@ -28,20 +56,21 @@ const columns: QTableProps['columns'] = [
 ];
 
 // 받아온 학기별 평균 성적 데이터
-const rows = [
-  {
-    name: '2018학년도 1학기',
-    totalGrade: 19,
-    gradeAverage: 4.2
-  },
-  {
-    name: '2018학년도 2학기',
-    totalGrade: 18,
-    gradeAverage: 4.0
-  }
-];
+const rows = ref([]);
+// const rows = [
+//   {
+//     name: '2018학년도 1학기',
+//     totalGrade: 19,
+//     gradeAverage: 4.2
+//   },
+//   {
+//     name: '2018학년도 2학기',
+//     totalGrade: 18,
+//     gradeAverage: 4.0
+//   }
+// ];
 // 테이블 데이터 생성
-let labels: string[] = [];
+let labels: Ref<string[]> = ref([]);
 let datasets = [
   {
     label: '평균 학점',
@@ -49,16 +78,14 @@ let datasets = [
     data: new Array()
   }
 ];
-rows.forEach((row) => {
-  labels.push(row.name.split(' ')[0] + '\n' + row.name.split(' ')[1]);
-  datasets[0].data.push(row.gradeAverage);
-});
 
 // 차트데이터 생성
-let chartData = {
-  labels: labels,
-  datasets: datasets
-};
+let chartData = computed(() => {
+  return {
+    labels: [...labels.value].sort(),
+    datasets: datasets
+  };
+});
 let charOptions = {
   scales: {
     y: {
@@ -67,40 +94,40 @@ let charOptions = {
     }
   }
 };
-
+const semesters = ref([]);
 // 받아온 모든 성적 데이터
-let semesters = [
-  {
-    semesterName: '2018학년도 1학기',
-    classes: [
-      {
-        className: '소프트웨어공학1',
-        credit: 3,
-        score: 'A+'
-      },
-      {
-        className: '소프트웨어공학2',
-        credit: 3,
-        score: 'A+'
-      }
-    ]
-  },
-  {
-    semesterName: '2018학년도 2학기',
-    classes: [
-      {
-        className: '소프트웨어공학3',
-        credit: 3,
-        score: 'A+'
-      },
-      {
-        className: '소프트웨어공학4',
-        credit: 3,
-        score: 'A+'
-      }
-    ]
-  }
-];
+// let semesters = [
+//   {
+//     semesterName: '2018학년도 1학기',
+//     classes: [
+//       {
+//         className: '소프트웨어공학1',
+//         credit: 3,
+//         score: 'A+'
+//       },
+//       {
+//         className: '소프트웨어공학2',
+//         credit: 3,
+//         score: 'A+'
+//       }
+//     ]
+//   },
+//   {
+//     semesterName: '2018학년도 2학기',
+//     classes: [
+//       {
+//         className: '소프트웨어공학3',
+//         credit: 3,
+//         score: 'A+'
+//       },
+//       {
+//         className: '소프트웨어공학4',
+//         credit: 3,
+//         score: 'A+'
+//       }
+//     ]
+//   }
+// ];
 </script>
 <template>
   <div class="background">
@@ -139,9 +166,9 @@ let semesters = [
           </thead>
           <tbody>
             <tr v-for="(c, cIndex) in semester.classes" :key="cIndex">
-              <td>{{c.className}}</td>
-              <td>{{c.credit}}</td>
-              <td>{{c.score}}</td>
+              <td>{{ c.className }}</td>
+              <td>{{ c.credit }}</td>
+              <td>{{ c.score }}</td>
             </tr>
           </tbody>
         </table>
@@ -150,7 +177,7 @@ let semesters = [
   </div>
 </template>
 <style scoped lang="scss">
-td{
+td {
   text-align: center;
 }
 .background {
@@ -195,13 +222,13 @@ td{
 .semester {
   border-top: 2px solid gray;
 }
-.ths{
+.ths {
   border-bottom: 1px solid gray;
 }
-th{
+th {
   background: #efe3e3;
 }
-table{
+table {
   border-collapse: collapse;
 }
 </style>
