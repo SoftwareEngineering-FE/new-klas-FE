@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
+import { useLoginStore } from '../../stores/login';
+const login = useLoginStore();
+
 const searchText = ref('');
 const q = useQuasar();
 const lectureBasket = ref(new Map());

@@ -36,9 +36,10 @@ onMounted(() => {
 const submit = async () => {
   const data = new FormData();
   console.log(inputFile.value);
-  data.append('studentId', login.loginId + '');
-  data.append('postId', props.id + '');
-  data.append('title', title.value);
+  data.append(
+    'dto',
+    JSON.stringify({ postId: props.id, studentId: login.loginId, title: title.value })
+  );
   data.append('file', inputFile.value);
   await axios
     .post('http://localhost:8080/file/upload', data, {
