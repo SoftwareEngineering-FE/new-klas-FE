@@ -38,7 +38,9 @@ const submit = async () => {
   console.log(inputFile.value);
   data.append(
     'dto',
-    JSON.stringify({ postId: props.id, studentId: login.loginId, title: title.value })
+    new Blob([JSON.stringify({ postId: props.id, studentId: login.loginId, title: title.value })], {
+      type: 'application/json'
+    })
   );
   data.append('file', inputFile.value);
   await axios
