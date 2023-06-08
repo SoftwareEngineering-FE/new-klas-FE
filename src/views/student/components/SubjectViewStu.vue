@@ -74,8 +74,8 @@ const submit = async () => {
           <q-input
             class="q-mt-xs"
             @update:model-value="
-              (val) => {
-                inputFile = val;
+              (val:any) => {
+                inputFile = val[0];
               }
             "
             model-value=""
