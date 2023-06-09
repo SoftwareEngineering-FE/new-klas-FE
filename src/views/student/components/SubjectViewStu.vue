@@ -62,7 +62,9 @@ const submit = async () => {
         'Content-Type': 'multipart/form-data'
       }
     })
-    .then((res) => {})
+    .then((res) => {
+      getData();
+    })
     .catch((err) => {
       console.log(err);
     });
