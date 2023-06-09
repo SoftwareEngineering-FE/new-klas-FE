@@ -69,7 +69,7 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'reference/:classId/:id',
+          path: 'reference/:id',
           component:RefViewStu,
           props:true
         },

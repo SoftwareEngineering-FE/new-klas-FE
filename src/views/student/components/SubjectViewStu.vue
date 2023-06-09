@@ -20,15 +20,26 @@ const time = ref('');
 const deadline = ref('');
 const className = ref('');
 const content = ref('');
+const fileExist = ref(false);
+const fileName = ref('');
+const fileLink = ref('');
 const getData = async () => {
-  await axios.get('http://localhost:8080/api/assignment/' + props.id).then((res) => {
-    title.value = res.data.title;
-    writer.value = res.data.writer;
-    time.value = res.data.time;
-    className.value = res.data.className;
-    content.value = res.data.content;
-    deadline.value = res.data.deadline;
-  });
+  await axios
+    .get('http://localhost:8080/api/assignment/detail/' + props.id + '/' + login.loginId)
+    .then((res) => {
+      console.log(res.data);
+      title.value = res.data.title;
+      writer.value = res.data.writer;
+      time.value = res.data.time;
+      className.value = res.data.className;
+      content.value = res.data.content;
+      deadline.value = res.data.deadline;
+      if (res.data.result == 1) {
+        fileExist.value = true;
+        fileName.value = res.data.fileName;
+        fileLink.value = res.data.link;
+      }
+    });
 };
 onMounted(() => {
   getData();
@@ -74,6 +85,9 @@ const submit = async () => {
         </div>
         <div class="post-body">{{ content }}</div>
         <q-separator></q-separator>
+        <div class="">
+          제출한 파일 : <a :href="fileLink" target="_blank">{{ fileName }}</a>
+        </div>
         <div class="board q-mt-md q-pa-md">
           <q-input outlined v-model="inputTitle" placeholder="제목" dense color="kbrown" />
           <q-input

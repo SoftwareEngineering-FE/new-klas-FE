@@ -1,5 +1,7 @@
 <template>
-  <RouterView />
+  <keep-alive>
+    <RouterView />
+  </keep-alive>
 </template>
 <style lang="scss">
 .text-kbrown {
@@ -8,11 +10,11 @@
 .bg-kbrown {
   background: #920800 !important;
 }
-.text-kgray{
-  color: #FAF3F3 !important;
+.text-kgray {
+  color: #faf3f3 !important;
 }
-.bg-kgray{
-  background: #FAF3F3 !important;
+.bg-kgray {
+  background: #faf3f3 !important;
 }
 .text-gray {
   color: #222222 !important;

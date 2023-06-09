@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const q = useQuasar();
 const router = useRouter();
@@ -11,9 +12,21 @@ const postData = {
   date: '2023-05-12',
   content: '1주차 강의 자료입니다.'
 };
+const title = ref('')
+const content = ref('')
+const writer = ref('')
+const time = ref('')
+const result = ref('')
+const fileName = ref('')
+const fileLink = ref('')
 const goUpdateRef = (classId: number, id: number) => {
   router.push('/professor/updateref/' + classId + '/' + id);
 };
+const getData = async (lectureId : number) =>{
+  await axios.get('http://localhost:8080/api/data/detail/'+lectureId).then((res)=>{
+
+  })
+}
 </script>
 <template>
   <div class="background">

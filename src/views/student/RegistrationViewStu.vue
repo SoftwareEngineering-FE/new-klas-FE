@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
+import axios from 'axios';
 import { useLoginStore } from '../../stores/login';
 const login = useLoginStore();
 
@@ -12,12 +13,11 @@ type whenType = {
   time: number[];
 };
 type lectureType = {
-  lectureId: number;
+  classId: number;
   lectureName: string;
   professor: string;
   when: whenType[];
 };
-const registrationLecture = (lectureId: number) => {};
 const hasTimeOverlap = (time1: number[], time2: number[]) => {
   for (const t1 of time1) {
     for (const t2 of time2) {
@@ -28,7 +28,23 @@ const hasTimeOverlap = (time1: number[], time2: number[]) => {
   }
   return false;
 };
-const dropLecture = (lectureId: number) => {};
+const dropLecture = async (lectureId: number) => {
+  await axios
+    .delete(
+      'http://localhost:8080/api/delete/subject/' +
+        login.loginId +
+        '/' +
+        lectureId +
+        '?year=2023&semester=1'
+    )
+    .then((res) => {
+      console.log(res.data);
+      getMyClasses();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 const addLecture = (lecture: lectureType) => {
   for (const existingLecture of lectureBasket.value.values()) {
     for (const existingWhen of existingLecture.when) {
@@ -44,7 +60,8 @@ const addLecture = (lecture: lectureType) => {
       }
     }
   }
-  lectureBasket.value.set(lecture.lectureId, lecture);
+  lectureBasket.value.set(lecture.classId, lecture);
+  console.log(lecture.classId);
 };
 const deleteLecture = (lectureId: number) => {
   lectureBasket.value.delete(lectureId);
@@ -53,113 +70,48 @@ type dayType = {
   [key: number]: string;
 };
 const day: dayType = { 0: '월', 1: '화', 2: '수', 3: '목', 4: '금', 5: '토', 6: '일' };
-const lectures = [
-  {
-    lectureId: 8458,
-    lectureName: '소프트웨어공학',
-    professor: '이기훈',
-    when: [
-      {
-        day: 0, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 1,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    lectureId: 8459,
-    lectureName: '소프트웨어공학2',
-    professor: '이기훈',
-    when: [
-      {
-        day: 3, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 4,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    lectureId: 8259,
-    lectureName: '소프트웨어공학3',
-    professor: '이기훈',
-    when: [
-      {
-        day: 0, // 월 0 화 1 수 2 ...
-        time: [1, 2] // 0교시 1교시
-      },
-      {
-        day: 4,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    lectureId: 8459,
-    lectureName: '소프트웨어공학2',
-    professor: '이기훈',
-    when: [
-      {
-        day: 3, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 4,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    lectureId: 8459,
-    lectureName: '소프트웨어공학2',
-    professor: '이기훈',
-    when: [
-      {
-        day: 3, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 4,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    lectureId: 8459,
-    lectureName: '소프트웨어공학2',
-    professor: '이기훈',
-    when: [
-      {
-        day: 3, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 4,
-        time: [0, 1]
-      }
-    ]
-  },
-  {
-    lectureId: 8459,
-    lectureName: '소프트웨어공학2',
-    professor: '이기훈',
-    when: [
-      {
-        day: 3, // 월 0 화 1 수 2 ...
-        time: [0, 1] // 0교시 1교시
-      },
-      {
-        day: 4,
-        time: [0, 1]
-      }
-    ]
-  }
-];
+const lectures = ref([]);
+const myLectures = ref([]);
+const getMyClasses = async () => {
+  await axios
+    .get('http://localhost:8080/main/schedule?studentId=' + login.loginId + '&year=2023&semester=1')
+    .then((res) => {
+      console.log(res.data);
+      myLectures.value = res.data;
+    });
+};
+const registrateLecture = async (lectureId: number) => {
+  await axios
+    .post('http://localhost:8080/api/register/subject', {
+      studentId: login.loginId,
+      classId: lectureId,
+      year: 2023,
+      semester: 1
+    })
+    .then((res) => {
+      getMyClasses();
+    })
+    .catch((err) => {
+      alert(err.response.data.message);
+    });
+    
+};
+const getClasses = async () => {
+  await axios
+    .get(
+      'http://localhost:8080/api/search/' +
+        login.loginId +
+        '?year=2023&semester=1&search=' +
+        searchText.value
+    )
+    .then((res) => {
+      lectures.value = res.data.classes;
+    });
+};
+onMounted(() => {
+  getClasses();
+  getMyClasses();
+});
 </script>
 <template>
   <div class="background">
@@ -182,11 +134,17 @@ const lectures = [
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(lecture, index) in lectures" :key="index">
+            <tr v-for="(lecture, index) in myLectures" :key="index">
               <td>
-                <q-btn flat color="kbrown" icon="remove" dense @click="dropLecture(lecture.lectureId)" />
+                <q-btn
+                  flat
+                  color="kbrown"
+                  icon="remove"
+                  dense
+                  @click="dropLecture(lecture.classId)"
+                />
               </td>
-              <td>{{ lecture.lectureName }}</td>
+              <td>{{ lecture.className }}</td>
               <td>{{ lecture.professor }}</td>
               <td>
                 <span v-for="(time, tIndex) in lecture.when" :key="tIndex">{{
@@ -229,7 +187,7 @@ const lectures = [
                   <td>
                     <q-btn flat color="kbrown" icon="remove" dense @click="deleteLecture(key)" />
                   </td>
-                  <td>{{ value.lectureName }}</td>
+                  <td>{{ value.className }}</td>
                   <td>{{ value.professor }}</td>
                   <td>
                     <span v-for="(time, tIndex) in value.when" :key="tIndex">{{
@@ -237,13 +195,7 @@ const lectures = [
                     }}</span>
                   </td>
                   <td>
-                    <q-btn
-                      flat
-                      color="kbrown"
-                      icon="check"
-                      dense
-                      @click="registrationLecture(key)"
-                    />
+                    <q-btn flat color="kbrown" icon="check" dense @click="registrateLecture(key)" />
                   </td>
                 </tr>
               </tbody>
@@ -269,7 +221,7 @@ const lectures = [
                 placeholder="교수명 / 강의명 검색"
                 dense
               />
-              <q-btn class="q-mx-sm" color="kbrown" icon="search" />
+              <q-btn class="q-mx-sm" color="kbrown" icon="search" @click="getClasses()" />
             </div>
             <div class="table">
               <table class="q-mb-s">
@@ -292,7 +244,7 @@ const lectures = [
                     <td>
                       <q-btn flat color="kbrown" icon="add" dense @click="addLecture(lecture)" />
                     </td>
-                    <td>{{ lecture.lectureName }}</td>
+                    <td>{{ lecture.className }}</td>
                     <td>{{ lecture.professor }}</td>
                     <td>
                       <span v-for="(time, tIndex) in lecture.when" :key="tIndex">{{

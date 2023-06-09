@@ -1,7 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
+const title = ref('');
+const content = ref('');
+const writer = ref('');
+const time = ref('');
+const fileName = ref('');
+const fileLink = ref('');
+const getData = async () => {
+  await axios.get('http://localhost:8080/api/data/detail/' + props.id).then((res) => {
+    console.log(res.data);
+    title.value = res.data.title;
+    content.value = res.data.content;
+    writer.value = res.data.writer;
+    time.value = res.data.time;
+
+    if (res.data.result !== -1) {
+      fileName.value = res.data.fileName;
+      fileLink.value = res.data.link;
+    }
+  });
+};
 const q = useQuasar();
 const router = useRouter();
 const postData = {
@@ -10,6 +37,9 @@ const postData = {
   date: '2023-05-12',
   content: '1주차 강의 자료입니다.'
 };
+onMounted(() => {
+  getData();
+});
 </script>
 <template>
   <div class="background">
@@ -18,13 +48,16 @@ const postData = {
         <div class="title">강의 자료실</div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ postData.title }}</div>
+          <div class="post-title">{{ title }}</div>
           <div class="row">
-            <div class="q-pr-md">작성자 : {{ postData.writer }}</div>
-            <div class="">작성일 : {{ postData.date }}</div>
+            <div class="q-pr-md">작성자 : {{ writer }}</div>
+            <div class="q-pr-md">작성일 : {{ time }}</div>
+          </div>
+          <div class="">
+            첨부 파일 : <a :href="fileLink" target="_blank">{{ fileName }}</a>
           </div>
         </div>
-        <div class="post-body">{{ postData.content }}</div>
+        <div class="post-body">{{ content }}</div>
         <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn

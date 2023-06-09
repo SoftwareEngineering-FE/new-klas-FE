@@ -1,64 +1,111 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref, onUpdated, watch } from 'vue';
+import type { Ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { useLoginStore } from '../../stores/login';
+const login = useLoginStore();
 
 const q = useQuasar();
 const router = useRouter();
-const selectedClass = ref('소프트웨어공학');
-const classes = ['소프트웨어공학', '운영체제'];
-const selectedSemester = ref('2023년도 1학기');
-const semesters = ['2023년도 1학기', '2023년도 2학기', '2022년도 1학기', '2022년도 2학기'];
-const notices = [
-  {
-    title: '오늘 휴강',
-    time: '2023-05-12',
-    id: 1
-  },
-  {
-    title: '내일도 휴강',
-    time: '2023-05-13',
-    id: 2
-  }
-];
-const subjects = [
-  {
-    title: '1차 프젝',
-    deadline: '2023-05-12',
-    id: 1
-  },
-  {
-    title: '2차 프젝',
-    deadline: '2023-05-13',
-    id: 2
-  }
-];
-const references = [
-  {
-    title: '1주차 강의 자료',
-    time: '2023-05-12',
-    id: 1
-  },
-  {
-    title: '2주차 강의 자료',
-    time: '2023-05-13',
-    id: 2
-  }
-];
-const studentScore = ref([]);
-const scoreData: { studentId: number; score: string }[] = [];
-const students = [
-  {
-    studentId: 2018202048,
-    studentName: '이민재',
-    score: ''
-  },
-  {
-    studentId: 2018202043,
-    studentName: '이민재2',
-    score: 'A+'
-  }
-];
+const selectedClass = ref('');
+const selectedSemester = ref('');
+const semesters: Ref<any[]> = ref([]);
+const classData = ref([]);
+const classes1 = ref(new Map()); // semester : [class1, class2, class3]
+const classMap = new Map();
+const notices = ref([]);
+const subjects = ref([]);
+// const subjects = [
+//   {
+//     title: '1차 프젝',
+//     deadline: '2023-05-12',
+//     id: 1
+//   },
+//   {
+//     title: '2차 프젝',
+//     deadline: '2023-05-13',
+//     id: 2
+//   }
+// ];
+const references = ref([]);
+const getRefs = async (lectureId: number) => {
+  await axios.get('http://localhost:8080/api/data/detail/' + lectureId).then((res) => {});
+};
+const getData = async () => {
+  await axios
+    .get('http://localhost:8080/api/lecture/' + login.loginId)
+    .then((res) => {
+      classData.value = res.data.semesters;
+      setSemesterClass();
+      getNotice();
+      getSubject();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getNotice = async () => {
+  await axios
+    .get(
+      'http://localhost:8080/api/notice/' + login.loginId + '/' + classMap.get(selectedClass.value)
+    )
+    .then((res) => {
+      notices.value = res.data.notices;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const getSubject = async () => {
+  console.log(selectedClass.value);
+  await axios
+    .get(
+      'http://localhost:8080/api/assignment/' +
+        login.loginId +
+        '/' +
+        classMap.get(selectedClass.value)
+    )
+    .then((res) => {
+      console.log(res.data);
+      subjects.value = res.data.subjects;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+const setSemesterClass = () => {
+  console.log(classData.value);
+  classData.value.sort((a: any, b: any) => {
+    const upperCaseA = a.semester.toUpperCase();
+    const upperCaseB = b.semester.toUpperCase();
+
+    if (upperCaseA < upperCaseB) return 1;
+    else if (upperCaseA > upperCaseB) return -1;
+    else return 0;
+  });
+  classData.value.forEach((el: any, index) => {
+    if (index === 0) selectedSemester.value = el.semester;
+    semesters.value.push(el.semester);
+    classes1.value.set(el.semester, []);
+    el.classes.forEach((cl: any, cindex: number) => {
+      if (cindex === 0 && index === 0) selectedClass.value = cl.className;
+      classes1.value.get(el.semester).push(cl.className);
+      classMap.set(cl.className, cl.classId);
+    });
+  });
+};
+onMounted(() => {
+  getData();
+});
+watch(selectedSemester, () => {
+  selectedClass.value = classes1.value.get(selectedSemester.value)[0];
+});
+watch(selectedClass, () => {
+  getNotice();
+  getSubject();
+});
 const goWriteRef = (id: number) => {
   router.push('/professor/writeref/' + id);
 };
@@ -78,8 +125,22 @@ const goSubject = (id: number) => {
   router.push('/professor/subject/8458/' + id);
 };
 const goRef = (id: number) => {
-  router.push('/professor/reference/8458/' + id);
+  router.push('/professor/reference/' + id);
 };
+const studentScore = ref([]);
+const scoreData: { studentId: number; score: string }[] = [];
+const students = [
+  {
+    studentId: 2018202048,
+    studentName: '이민재',
+    score: ''
+  },
+  {
+    studentId: 2018202043,
+    studentName: '이민재2',
+    score: 'A+'
+  }
+];
 const giveScore = () => {
   console.log(studentScore.value);
   console.log(scoreData);
