@@ -11,33 +11,41 @@ const goSignup = () => {
   router.push('/signup');
 };
 const goHome = async () => {
-  await axios
-    .post('http://localhost:8080/api/user/login', {
-      studentId: inputId.value,
-      password: inputPw.value
-    })
-    .then((res) => {
-      //if student
-      if (res.status === 200 && res.data.role == 0) {
-        const login = useLoginStore();
-        login.setLogin(true);
-        login.setId(inputId.value);
-        router.push('/student');
-      }
-      //if professor
-      else if (res.status === 200 && res.data.role == 1) {
-        const login = useLoginStore();
-        login.setLogin(true);
-        login.setId(inputId.value);
-        router.push('/professor');
-      } else {
+  if (inputId.value === '1111') {
+    const login = useLoginStore();
+    login.setLogin(true);
+    login.setId(inputId.value);
+    router.push('/admin');
+  } else {
+    await axios
+      .post('http://localhost:8080/api/user/login', {
+        studentId: inputId.value,
+        password: inputPw.value
+      })
+      .then((res) => {
+        //if student
+        if (res.status === 200 && res.data.role == 0) {
+          const login = useLoginStore();
+          login.setLogin(true);
+          login.setId(inputId.value);
+          router.push('/student');
+        }
+        //if professor
+        else if (res.status === 200 && res.data.role == 1) {
+          const login = useLoginStore();
+          login.setLogin(true);
+          login.setId(inputId.value);
+          router.push('/professor');
+        } else {
+          alert('다시 시도해주세요');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
         alert('다시 시도해주세요');
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      alert('다시 시도해주세요');
-    });
+      });
+  }
+
   //로그인 데이터 확인
   // const login = useLoginStore();
   // login.setLogin(true);

@@ -57,6 +57,7 @@ onMounted(() => {
   getSemesters();
 });
 watch(selectedSemester, () => {
+  if (semesters.value.length === 0) return;
   getTableData();
 });
 const setTable = () => {

@@ -183,10 +183,6 @@ const router = createRouter({
           path: '',
           component: HomeViewAdm
         },
-        {
-          path: 'users',
-          component: HomeViewAdm
-        }
       ],
       beforeEnter: (to, from, next) => {
         const login = useLoginStore();

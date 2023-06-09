@@ -1,7 +1,5 @@
 <template>
-  <keep-alive>
-    <RouterView />
-  </keep-alive>
+  <RouterView />
 </template>
 <style lang="scss">
 .text-kbrown {

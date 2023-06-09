@@ -21,13 +21,6 @@ const toggleLeftDrawer = () => {
       <q-list separator>
         <q-item clickable v-ripple to="/admin" class="text-black">
           <q-item-section avatar>
-            <q-icon name="rule" />
-          </q-item-section>
-          <q-item-section>강의 관리</q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple to="/admin/users" class="text-black">
-          <q-item-section avatar>
             <q-icon name="groups" />
           </q-item-section>
           <q-item-section>유저 관리</q-item-section>
