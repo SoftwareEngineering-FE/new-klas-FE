@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -11,48 +11,32 @@ const props = defineProps({
 });
 const q = useQuasar();
 const router = useRouter();
-const inputTitle = ref('');
 const inputContext = ref('');
-const inputDeadline = ref('');
-const inputTime = ref('');
+const getDesc = async (classId: string) => {
+  await axios.get('http://localhost:8080/syllabus/read?subjectId=' + classId).then((res) => {
+    inputContext.value = res.data.content;
+  });
+};
 const submit = async () => {
   await axios
-    .post('http://localhost:8080/write/post', {
+    .post('http://localhost:8080/syllabus/write', {
       subjectId: props.id,
-      code: 3,
-      title: inputTitle.value,
-      content: inputContext.value,
-      deadline: inputDeadline.value + ' ' + inputTime.value + ':00'
+      subjectContent: inputContext.value
     })
     .then((res) => {
       router.back();
     });
 };
+onMounted(() => {
+  getDesc(props.id);
+});
 </script>
 <template>
   <div class="background">
     <div class="wrapper">
       <div class="board">
-        <div class="title q-mb-sm">과제 추가</div>
-        <q-separator></q-separator>
-        <q-input color="kbrown" class="q-my-md" outlined v-model="inputTitle" label="제목" dense />
-        <q-input
-          color="kbrown"
-          class="q-mb-xs"
-          v-model="inputDeadline"
-          filled
-          type="date"
-          hint="제출 마감 날짜"
-          dense
-        />
-        <q-input
-          class="q-mb-md"
-          v-model="inputTime"
-          filled
-          type="time"
-          hint="제출 마감 시간"
-          dense
-        />
+        <div class="title q-mb-sm">강의계획서 작성</div>
+
         <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
 
         <div class="post-foot row justify-end">
@@ -90,5 +74,19 @@ const submit = async () => {
 }
 .select-box {
   width: 200px;
+}
+.post-head {
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  background-color: #f3f3f3;
+  padding: 10px;
+}
+.post-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.post-body {
+  padding: 20px 15px;
+  font-size: 14px;
 }
 </style>

@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 const props = defineProps({
-  classId: {
-    type: String,
-    required: true
-  },
   id: {
     type: String,
     required: true
@@ -16,10 +13,29 @@ const q = useQuasar();
 const router = useRouter();
 const inputTitle = ref('');
 const inputContext = ref('');
-const submit = () => {
-  console.log(props);
-  console.log(props.classId, props.id);
+const getPost = async () => {
+  await axios.get('http://localhost:8080/api/notice/' + props.id).then((res) => {
+    inputTitle.value = res.data.title;
+    inputContext.value = res.data.content;
+  });
 };
+const submit = async () => {
+  await axios
+    .put('http://localhost:8080/update/post', {
+      postId: props.id,
+      title: inputTitle.value,
+      content: inputContext.value
+    })
+    .then((res) => {
+      router.back();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+onMounted(() => {
+  getPost();
+});
 </script>
 <template>
   <div class="background">

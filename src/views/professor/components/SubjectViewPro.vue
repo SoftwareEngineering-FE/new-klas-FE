@@ -40,8 +40,13 @@ const getData = async () => {
       deadline.value = res.data.deadline;
     });
 };
-const goUpdateSubject = (classId: number, id: number) => {
-  router.push('/professor/updatesubject/' + classId + '/' + id);
+const deletePost = async () => {
+  await axios.delete('http://localhost:8080/delete/post?postId=' + props.id).then((res) => {
+    router.back();
+  });
+};
+const goUpdateSubject = () => {
+  router.push('/professor/updatesubject/' + props.id);
 };
 onMounted(() => {
   getData();
@@ -66,10 +71,18 @@ onMounted(() => {
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
-            @click="goUpdateSubject(84458, 1)"
+            @click="goUpdateSubject()"
             padding="3px 12px"
             color="kbrown"
             label="수정"
+          />
+
+          <q-btn
+            class="q-ma-sm"
+            @click="deletePost()"
+            padding="3px 12px"
+            color="kbrown"
+            label="삭제"
           />
           <q-btn
             class="q-ma-sm"

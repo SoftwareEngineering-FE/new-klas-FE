@@ -137,8 +137,8 @@ const goAddSubject = () => {
 const goWriteNotice = () => {
   router.push('/professor/writenotice/' + classMap.get(selectedClass.value));
 };
-const goCourseDesc = (id: number) => {
-  router.push('/professor/coursedesc/' + id);
+const goCourseDesc = () => {
+  router.push('/professor/coursedesc/' + classMap.get(selectedClass.value));
 };
 const goNotice = (id: number) => {
   router.push('/professor/notice/' + id);
@@ -200,18 +200,15 @@ onMounted(() => {
           <div class="select-box">
             <q-select color="main" v-model="selectedClass" :options="classes" dense />
           </div>
+          <q-btn
+            class="q-ml-md"
+            color="kbrown"
+            label="강의계획서 조회"
+            size="md"
+            dense
+            @click="goCourseDesc()"
+          />
         </div>
-      </div>
-      <div class="board q-mt-sm">
-        담당 교수 : <strong>이기훈 교수님</strong>
-        <q-btn
-          class="q-ml-md"
-          color="kbrown"
-          label="강의계획서 조회"
-          size="md"
-          dense
-          @click="goCourseDesc(8458)"
-        />
       </div>
       <div class="board q-mt-md">
         <div class="row items-center justify-between">

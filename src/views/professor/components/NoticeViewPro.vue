@@ -11,12 +11,6 @@ const props = defineProps({
 });
 const q = useQuasar();
 const router = useRouter();
-const postData = {
-  title: '오늘 수업은 없습니다.',
-  writer: '홍길동',
-  date: '2023-05-12',
-  content: '오늘 깜짝 이벤트로 수업이 없어져버렸어요~'
-};
 const title = ref('');
 const writer = ref('');
 const time = ref('');
@@ -29,8 +23,13 @@ const getData = async () => {
     writer.value = res.data.writer;
   });
 };
-const goUpdateNotice = (classId: number, id: number) => {
-  router.push('/professor/updatenotice/' + classId + '/' + id);
+const goUpdateNotice = () => {
+  router.push('/professor/updatenotice/' + props.id);
+};
+const deletePost = async () => {
+  await axios.delete('http://localhost:8080/delete/post?postId=' + props.id).then((res) => {
+    router.back();
+  });
 };
 onMounted(() => {
   getData();
@@ -54,10 +53,17 @@ onMounted(() => {
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
-            @click="goUpdateNotice(8458, 1)"
+            @click="goUpdateNotice()"
             padding="3px 12px"
             color="kbrown"
             label="수정"
+          />
+          <q-btn
+            class="q-ma-sm"
+            @click="deletePost()"
+            padding="3px 12px"
+            color="kbrown"
+            label="삭제"
           />
           <q-btn
             class="q-ma-sm"

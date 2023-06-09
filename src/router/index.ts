@@ -29,7 +29,7 @@ import UpdateSubjectPro from '@/views/professor/components/UpdateSubjectPro.vue'
 import WriteRefPro from '@/views/professor/components/WriteRefPro.vue';
 import UpdateRefPro from '@/views/professor/components/UpdateRefPro.vue';
 import RefViewPro from '@/views/professor/components/RefViewPro.vue';
-
+import UpdateCourseDesc from '@/views/professor/components/UpdateCourseDesc.vue';
 import { useLoginStore } from '../stores/login';
 
 const router = createRouter({
@@ -70,8 +70,8 @@ const router = createRouter({
         },
         {
           path: 'reference/:id',
-          component:RefViewStu,
-          props:true
+          component: RefViewStu,
+          props: true
         },
         {
           path: 'coursedesc',
@@ -130,12 +130,17 @@ const router = createRouter({
           props: true
         },
         {
+          path: 'coursedesc/update/:id',
+          component: UpdateCourseDesc,
+          props: true
+        },
+        {
           path: 'writenotice/:id',
           component: WriteNoticePro,
           props: true
         },
         {
-          path: 'updatenotice/:classId/:id',
+          path: 'updatenotice/:id',
           component: UpdateNoticePro,
           props: true
         },
@@ -145,7 +150,7 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'updatesubject/:classId/:id',
+          path: 'updatesubject/:id',
           component: UpdateSubjectPro,
           props: true
         },
@@ -155,7 +160,7 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'updateref/:classId/:id',
+          path: 'updateref/:id',
           component: UpdateRefPro,
           props: true
         }

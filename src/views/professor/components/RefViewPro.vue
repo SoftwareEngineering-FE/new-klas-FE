@@ -32,8 +32,13 @@ const getData = async () => {
 };
 const q = useQuasar();
 const router = useRouter();
-const goUpdateRef = (classId: number, id: number) => {
-  router.push('/professor/updateref/' + classId + '/' + id);
+const goUpdateRef = () => {
+  router.push('/professor/updateref/' + props.id);
+};
+const deletePost = async () => {
+  await axios.delete('http://localhost:8080/delete/post?postId=' + props.id).then((res) => {
+    router.back();
+  });
 };
 onMounted(() => {
   getData();
@@ -60,10 +65,18 @@ onMounted(() => {
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"
-            @click="goUpdateRef(8458, 1)"
+            @click="goUpdateRef()"
             padding="3px 12px"
             color="kbrown"
             label="수정"
+          />
+
+          <q-btn
+            class="q-ma-sm"
+            @click="deletePost()"
+            padding="3px 12px"
+            color="kbrown"
+            label="삭제"
           />
           <q-btn
             class="q-ma-sm"
