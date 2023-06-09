@@ -128,6 +128,7 @@ watch(selectedClass, () => {
   getRefs();
   getStudents();
 });
+watch(selectedSemester, () => {});
 const goWriteRef = () => {
   router.push('/professor/writeref/' + classMap.get(selectedClass.value));
 };
@@ -198,7 +199,12 @@ onMounted(() => {
           </div>
 
           <div class="select-box">
-            <q-select color="main" v-model="selectedClass" :options="classes" dense />
+            <q-select
+              color="main"
+              v-model="selectedClass"
+              :options="classes1.get(selectedSemester)"
+              dense
+            />
           </div>
           <q-btn
             class="q-ml-md"
