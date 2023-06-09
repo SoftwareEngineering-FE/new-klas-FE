@@ -6,11 +6,10 @@ const inputId = ref('');
 const inputPw = ref('');
 const inputName = ref('');
 const inputBirth = ref('');
-const inputPwCheck = ref('');
 const inputPhone = ref('');
 const inputEmail = ref('');
 const router = useRouter();
-const userType = ref('');
+const userType = ref('학생');
 const goLogin = async () => {
   await axios
     .post('http://localhost:8080/api/user/signUp', {
@@ -47,10 +46,10 @@ const goLogin = async () => {
 <template>
   <div class="container flex flex-center column">
     <q-img src="/svg/logo.svg" width="140px" />
-    <div class="q-gutter-sm color-white">
+    <!-- <div class="q-gutter-sm color-white">
       <q-radio color="white" dark left-label v-model="userType" val="학생" label="학생" />
       <q-radio color="white" dark left-label v-model="userType" val="교수" label="교수" />
-    </div>
+    </div> -->
     <q-input
       class="q-mt-md"
       color="kbrown"
