@@ -17,21 +17,15 @@ const classes1 = ref(new Map()); // semester : [class1, class2, class3]
 const classMap = new Map();
 const notices = ref([]);
 const subjects = ref([]);
-// const subjects = [
-//   {
-//     title: '1차 프젝',
-//     deadline: '2023-05-12',
-//     id: 1
-//   },
-//   {
-//     title: '2차 프젝',
-//     deadline: '2023-05-13',
-//     id: 2
-//   }
-// ];
 const references = ref([]);
-const getRefs = async (lectureId: number) => {
-  await axios.get('http://localhost:8080/api/data/detail/' + lectureId).then((res) => {});
+const getRefs = async () => {
+  await axios
+    .get(
+      'http://localhost:8080/api/data/' + login.loginId + '/' + classMap.get(selectedClass.value)
+    )
+    .then((res) => {
+      references.value = res.data.data;
+    });
 };
 const getData = async () => {
   await axios
@@ -68,7 +62,6 @@ const getSubject = async () => {
         classMap.get(selectedClass.value)
     )
     .then((res) => {
-      console.log(res.data);
       subjects.value = res.data.subjects;
     })
     .catch((err) => {
@@ -94,57 +87,104 @@ const setSemesterClass = () => {
       classes1.value.get(el.semester).push(cl.className);
       classMap.set(cl.className, cl.classId);
     });
+    classes1.value.get(el.semester).sort((a: any, b: any) => {
+      const upperCaseA = a.toUpperCase();
+      const upperCaseB = b.toUpperCase();
+
+      if (upperCaseA < upperCaseB) return 1;
+      else if (upperCaseA > upperCaseB) return -1;
+      else return 0;
+    });
   });
-};
-onMounted(() => {
-  getData();
-});
-watch(selectedSemester, () => {
-  selectedClass.value = classes1.value.get(selectedSemester.value)[0];
-});
-watch(selectedClass, () => {
+  semesters.value.sort((a: any, b: any) => {
+    const upperCaseA = a.toUpperCase();
+    const upperCaseB = b.toUpperCase();
+
+    if (upperCaseA < upperCaseB) return 1;
+    else if (upperCaseA > upperCaseB) return -1;
+    else return 0;
+  });
+  if (login.semester == '') {
+    selectedSemester.value = semesters.value[0];
+    console.log('semester 없음');
+  } else selectedSemester.value = login.semester;
+  if (login.className.length === 0) {
+    selectedClass.value = classes1.value.get(selectedSemester.value)[0];
+    console.log('className 없음');
+  } else {
+    selectedClass.value = login.className;
+    console.log('login className : ', login.className);
+    console.log('selectedClass : ', selectedClass.value);
+  }
   getNotice();
   getSubject();
+};
+
+watch(selectedClass, () => {
+  login.setClass(selectedClass.value);
+  login.setSemester(selectedSemester.value);
+  getNotice();
+  getSubject();
+  getRefs();
+  getStudents();
 });
-const goWriteRef = (id: number) => {
-  router.push('/professor/writeref/' + id);
+const goWriteRef = () => {
+  router.push('/professor/writeref/' + classMap.get(selectedClass.value));
 };
-const goAddSubject = (id: number) => {
-  router.push('/professor/addsubject/' + id);
+const goAddSubject = () => {
+  router.push('/professor/addsubject/' + classMap.get(selectedClass.value));
 };
-const goWriteNotice = (id: number) => {
-  router.push('/professor/writenotice/' + id);
+const goWriteNotice = () => {
+  router.push('/professor/writenotice/' + classMap.get(selectedClass.value));
 };
 const goCourseDesc = (id: number) => {
   router.push('/professor/coursedesc/' + id);
 };
 const goNotice = (id: number) => {
-  router.push('/professor/notice/8458/' + id);
+  router.push('/professor/notice/' + id);
 };
 const goSubject = (id: number) => {
-  router.push('/professor/subject/8458/' + id);
+  router.push('/professor/subject/' + id);
 };
 const goRef = (id: number) => {
   router.push('/professor/reference/' + id);
 };
 const studentScore = ref([]);
-const scoreData: { studentId: number; score: string }[] = [];
-const students = [
-  {
-    studentId: 2018202048,
-    studentName: '이민재',
-    score: ''
-  },
-  {
-    studentId: 2018202043,
-    studentName: '이민재2',
-    score: 'A+'
-  }
-];
-const giveScore = () => {
+const scoreData = new Map();
+const students = ref([]);
+const getStudents = async () => {
+  await axios
+    .get('http://localhost:8080/course/list?classId=' + classMap.get(selectedClass.value))
+    .then((res) => {
+      console.log(res.data);
+      students.value = res.data.sort((a: any, b: any) => {
+        const upperCaseA = a.studentName.toUpperCase();
+        const upperCaseB = b.studentName.toUpperCase();
+
+        if (upperCaseA < upperCaseB) return 1;
+        else if (upperCaseA > upperCaseB) return -1;
+        else return 0;
+      });
+    });
+};
+const giveScore = async () => {
   console.log(studentScore.value);
   console.log(scoreData);
+  scoreData.forEach(async (value, key) => {
+    await axios
+      .post('http://localhost:8080/give/grade', {
+        studentId: key,
+        score: value,
+        subjectId: classMap.get(selectedClass.value)
+      })
+      .then((res) => {
+        getStudents();
+      });
+  });
 };
+onMounted(() => {
+  getData();
+});
 </script>
 <template>
   <div class="background">
@@ -208,7 +248,7 @@ const giveScore = () => {
           <div class="board">
             <div class="row items-center justify-between">
               <div class="title">공지사항</div>
-              <q-btn flat color="kbrown" label="글 작성" @click="goWriteNotice(8458)" />
+              <q-btn flat color="kbrown" label="글 작성" @click="goWriteNotice()" />
             </div>
 
             <q-separator color="#d1d1d1" size="2" />
@@ -284,7 +324,7 @@ const giveScore = () => {
                 <div class="col">
                   {{ item.studentName }}
                 </div>
-                <div class="col">부여된 점수 : {{ item.score }}</div>
+                <div class="col">부여된 점수 : {{ item.studentScore }}</div>
               </div>
               <div class="row justify-center">
                 <div class="q-gutter-sm">
@@ -293,10 +333,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="A+"
@@ -307,10 +344,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="A"
@@ -321,10 +355,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="B+"
@@ -335,10 +366,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="B"
@@ -349,10 +377,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="C+"
@@ -363,10 +388,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="C"
@@ -377,10 +399,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="D+"
@@ -391,10 +410,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="D"
@@ -405,10 +421,7 @@ const giveScore = () => {
                     v-model="studentScore[index]"
                     @update:model-value="
                       () => {
-                        scoreData.push({
-                          studentId: item.studentId,
-                          score: studentScore[index]
-                        });
+                        scoreData.set(item.studentId, studentScore[index]);
                       }
                     "
                     val="F"

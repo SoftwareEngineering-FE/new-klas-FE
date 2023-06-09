@@ -29,14 +29,7 @@ const getData = async () => {
     }
   });
 };
-const q = useQuasar();
 const router = useRouter();
-const postData = {
-  title: '1주차 강의 자료',
-  writer: '홍길동',
-  date: '2023-05-12',
-  content: '1주차 강의 자료입니다.'
-};
 onMounted(() => {
   getData();
 });

@@ -2,11 +2,59 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { useLoginStore } from '../../../stores/login';
+const login = useLoginStore();
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
 const q = useQuasar();
 const router = useRouter();
 const inputTitle = ref('');
+
+const inputFile = ref();
 const inputContext = ref('');
-const submit = () => {};
+const submit = async () => {
+  console.log(props.id);
+  await axios
+    .post('http://localhost:8080/write/post', {
+      subjectId: props.id,
+      code: 1,
+      title: inputTitle.value,
+      content: inputContext.value
+    })
+    .then(async (res) => {
+      let postId = res.data;
+      const data = new FormData();
+      data.append(
+        'dto',
+        new Blob(
+          [JSON.stringify({ postId: postId, studentId: login.loginId, title: inputTitle.value })],
+          {
+            type: 'application/json'
+          }
+        )
+      );
+      data.append('file', inputFile.value);
+      await axios
+        .post('http://localhost:8080/file/upload', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((res) => {})
+        .catch((err) => {
+          console.log('파일 첨부 에러', err);
+        });
+      router.back();
+    })
+    .catch((err) => {
+      console.log('post작성 에러', err);
+    });
+};
 </script>
 <template>
   <div class="background">
@@ -16,15 +64,21 @@ const submit = () => {};
         <q-separator></q-separator>
         <q-input color="kbrown" class="q-mb-md" outlined v-model="inputTitle" label="제목" dense />
         <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />
-
+        <q-input
+          class="q-mt-xs"
+          @update:model-value="
+              (val:any) => {
+                inputFile = val[0];
+              }
+            "
+          model-value=""
+          color="kbrown"
+          multiple
+          filled
+          type="file"
+        />
         <div class="post-foot row justify-end">
-          <q-btn
-            class="q-ma-sm"
-            @click="submit()"
-            padding="3px 12px"
-            color="kbrown"
-            label="작성"
-          />
+          <q-btn class="q-ma-sm" @click="submit()" padding="3px 12px" color="kbrown" label="작성" />
           <q-btn
             class="q-ma-sm"
             @click="router.back()"

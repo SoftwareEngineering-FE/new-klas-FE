@@ -110,17 +110,17 @@ const router = createRouter({
           component: ClassViewPro
         },
         {
-          path: 'notice/:classId/:id',
+          path: 'notice/:id',
           component: NoticeViewPro,
           props: true
         },
         {
-          path: 'subject/:classId/:id',
+          path: 'subject/:id',
           component: SubjectViewPro,
           props: true
         },
         {
-          path: 'reference/:classId/:id',
+          path: 'reference/:id',
           component: RefViewPro,
           props: true
         },

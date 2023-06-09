@@ -18,7 +18,7 @@ const classMap = new Map();
 const notices = ref([]);
 const subjects = ref([]);
 const references = ref([]);
-const getRefs = async (classId: number) => {
+const getRefs = async () => {
   await axios
     .get(
       'http://localhost:8080/api/data/' + login.loginId + '/' + classMap.get(selectedClass.value)

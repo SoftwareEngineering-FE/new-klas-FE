@@ -2,13 +2,31 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
 const q = useQuasar();
 const router = useRouter();
 const inputTitle = ref('');
 const inputContext = ref('');
 const inputDeadline = ref('');
-const submit = () => {
-  console.log(inputDeadline.value);
+const inputTime = ref('');
+const submit = async () => {
+  await axios
+    .post('http://localhost:8080/write/post', {
+      subjectId: props.id,
+      code: 3,
+      title: inputTitle.value,
+      content: inputContext.value,
+      deadline: inputDeadline.value + ' ' + inputTime.value + ':00'
+    })
+    .then((res) => {
+      router.back();
+    });
 };
 </script>
 <template>
@@ -20,11 +38,19 @@ const submit = () => {
         <q-input color="kbrown" class="q-my-md" outlined v-model="inputTitle" label="제목" dense />
         <q-input
           color="kbrown"
-          class="q-mb-md"
+          class="q-mb-xs"
           v-model="inputDeadline"
           filled
           type="date"
-          hint="제출 기한"
+          hint="제출 기한 날짜"
+          dense
+        />
+        <q-input
+          class="q-mb-md"
+          v-model="inputTime"
+          filled
+          type="time"
+          hint="제출 마감 시간"
           dense
         />
         <q-input color="kbrown" v-model="inputContext" label="내용" filled type="textarea" />

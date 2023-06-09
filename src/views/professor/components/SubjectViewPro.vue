@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { useLoginStore } from '../../../stores/login';
+const login = useLoginStore();
+const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  }
+});
 const q = useQuasar();
 const router = useRouter();
 const subjectData = {
@@ -12,10 +21,31 @@ const subjectData = {
   className: '소프트웨어공학',
   content: '학사 관리 시스템을 구현해보시오.'
 };
+const title = ref('');
+const writer = ref('');
+const time = ref('');
+const deadline = ref('');
+const className = ref('');
+const content = ref('');
+const getData = async () => {
+  await axios
+    .get('http://localhost:8080/api/assignment/detail/' + props.id + '/' + login.loginId)
+    .then((res) => {
+      console.log(res.data);
+      title.value = res.data.title;
+      writer.value = res.data.writer;
+      time.value = res.data.time;
+      className.value = res.data.className;
+      content.value = res.data.content;
+      deadline.value = res.data.deadline;
+    });
+};
 const goUpdateSubject = (classId: number, id: number) => {
   router.push('/professor/updatesubject/' + classId + '/' + id);
 };
-const submit = () => {};
+onMounted(() => {
+  getData();
+});
 </script>
 <template>
   <div class="background">
@@ -24,14 +54,15 @@ const submit = () => {};
         <div class="title">{{ subjectData.className }} 과제</div>
         <q-separator></q-separator>
         <div class="post-head">
-          <div class="post-title">{{ subjectData.title }}</div>
+          <div class="post-title">{{ title }}</div>
           <div class="row">
-            <div class="q-pr-md">작성자 : {{ subjectData.writer }}</div>
-            <div class="q-pr-md">작성일 : {{ subjectData.date }}</div>
-            <div class="">기한 : ~{{ subjectData.deadline }}</div>
+            <div class="q-pr-md">작성자 : {{ writer }}</div>
+            <div class="q-pr-md">작성일 : {{ time }}</div>
+            <div class="">기한 : ~{{ deadline }}</div>
           </div>
         </div>
-        <div class="post-body">{{ subjectData.content }}</div>
+        <div class="post-body">{{ content }}</div>
+        <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn
             class="q-ma-sm"

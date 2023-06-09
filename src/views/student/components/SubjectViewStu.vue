@@ -46,7 +46,6 @@ onMounted(() => {
 });
 const submit = async () => {
   const data = new FormData();
-  console.log(inputFile.value);
   data.append(
     'dto',
     new Blob(
