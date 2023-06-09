@@ -38,7 +38,7 @@ const goLogin = async () => {
     })
     .catch((err) => {
       console.log(err);
-      alert('다시 해주세요.');
+      alert(err.response.data.message);
     });
 
   // router.push('/');
