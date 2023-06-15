@@ -75,6 +75,7 @@ watch(selectedYear, () => {
           <div class="select-box">
             <q-select color="main" v-model="selectedSemester" :options="semesters" dense />
           </div>
+          <div class="div q-mr-md">학기</div>
         </div>
         <q-separator></q-separator>
         <div class="row q-my-sm">
