@@ -53,7 +53,7 @@ onMounted(() => {
             <div class="q-mr-md">수강생 : {{ countStudent }}</div>
           </div>
         </div>
-        <div class="post-body">{{ desc }}</div>
+        <div class="post-body" style="white-space:pre-line">{{ desc }}</div>
         <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn

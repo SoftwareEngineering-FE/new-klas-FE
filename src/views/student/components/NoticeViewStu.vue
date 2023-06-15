@@ -40,7 +40,7 @@ onMounted(() => {
             <div class="">작성일 : {{ time }}</div>
           </div>
         </div>
-        <div class="post-body">{{ content }}</div>
+        <div class="post-body" style="white-space:pre-line">{{ content }}</div>
         <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn

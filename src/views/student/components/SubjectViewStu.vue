@@ -84,7 +84,7 @@ const submit = async () => {
             <div class="">기한 : ~{{ deadline }}</div>
           </div>
         </div>
-        <div class="post-body">{{ content }}</div>
+        <div class="post-body" style="white-space:pre-line">{{ content }}</div>
         <q-separator></q-separator>
         <div class="">
           제출한 파일 : <a :href="fileLink" target="_blank">{{ fileName }}</a>

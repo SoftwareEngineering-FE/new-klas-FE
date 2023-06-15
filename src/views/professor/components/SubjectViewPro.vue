@@ -39,7 +39,7 @@ const getData = async () => {
       className.value = res.data.className;
       content.value = res.data.content;
       deadline.value = res.data.deadline;
-      subjects.value = res.data.files;
+      if (res.data.files) subjects.value = res.data.files;
     });
 };
 const deletePost = async () => {
@@ -68,7 +68,7 @@ onMounted(() => {
             <div class="">기한 : ~{{ deadline }}</div>
           </div>
         </div>
-        <div class="post-body">{{ content }}</div>
+        <div class="post-body" style="white-space: pre-line">{{ content }}</div>
         <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn

@@ -50,7 +50,7 @@ onMounted(() => {
             첨부 파일 : <a :href="fileLink" target="_blank">{{ fileName }}</a>
           </div>
         </div>
-        <div class="post-body">{{ content }}</div>
+        <div class="post-body" style="white-space:pre-line">{{ content }}</div>
         <q-separator></q-separator>
         <div class="post-foot row justify-end">
           <q-btn
