@@ -117,7 +117,7 @@ onMounted(() => {
               <td>{{ subject.studentId }}</td>
               <td>{{ subject.title }}</td>
               <td>
-                <a :href="subject.link">{{ subject.fileName }}</a>
+                <a :href="subject.link" target="_blank">{{ subject.fileName }}</a>
               </td>
             </tr>
           </tbody>
