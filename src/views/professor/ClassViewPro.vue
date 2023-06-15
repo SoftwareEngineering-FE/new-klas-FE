@@ -219,11 +219,11 @@ onMounted(() => {
       <div class="board q-mt-md">
         <div class="row items-center justify-between">
           <div class="title">자료실</div>
-          <q-btn flat color="kbrown" label="글 작성" @click="goWriteRef(8458)" />
+          <q-btn flat color="kbrown" label="글 작성" @click="goWriteRef()" />
         </div>
 
         <q-separator color="#d1d1d1" size="2" />
-        <q-list dense padding separator>
+        <q-list class="scroll-box" dense padding separator>
           <q-item
             v-for="(item, index) in references"
             :key="index"
@@ -255,7 +255,7 @@ onMounted(() => {
             </div>
 
             <q-separator color="#d1d1d1" size="2" />
-            <q-list dense padding separator>
+            <q-list class="scroll-box" dense padding separator>
               <q-item
                 v-for="(item, index) in notices"
                 :key="index"
@@ -288,7 +288,7 @@ onMounted(() => {
             </div>
 
             <q-separator color="#d1d1d1" size="2" />
-            <q-list dense padding separator>
+            <q-list class="scroll-box" dense padding separator>
               <q-item
                 v-for="(item, index) in subjects"
                 :key="index"
@@ -311,7 +311,7 @@ onMounted(() => {
           <q-btn flat color="kbrown" label="부여하기" @click="giveScore()" />
         </div>
         <q-separator></q-separator>
-        <q-list dense padding separator>
+        <q-list  dense padding separator>
           <q-item
             v-for="(item, index) in students"
             :key="index"
@@ -460,5 +460,9 @@ onMounted(() => {
 }
 .select-box {
   width: 200px;
+}
+.scroll-box{
+  height: 150px;
+  overflow: scroll;
 }
 </style>

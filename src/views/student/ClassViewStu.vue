@@ -165,7 +165,7 @@ watch(selectedClass, () => {
           </div>
 
           <q-separator color="#d1d1d1" size="2" />
-          <q-list dense padding separator>
+          <q-list class="scroll-box" dense padding separator>
             <q-item
               v-for="(item, index) in references"
               :key="index"
@@ -194,7 +194,7 @@ watch(selectedClass, () => {
             <div class="board">
               <div class="title">공지사항</div>
               <q-separator color="#d1d1d1" size="2" />
-              <q-list dense padding separator>
+              <q-list class="scroll-box" dense padding separator>
                 <q-item
                   v-for="(item, index) in notices"
                   :key="index"
@@ -223,7 +223,7 @@ watch(selectedClass, () => {
             <div class="board">
               <div class="title">과제</div>
               <q-separator color="#d1d1d1" size="2" />
-              <q-list dense padding separator>
+              <q-list class="scroll-box" dense padding separator>
                 <q-item
                   v-for="(item, index) in subjects"
                   :key="index"
@@ -265,5 +265,9 @@ watch(selectedClass, () => {
 }
 .select-box {
   width: 200px;
+}
+.scroll-box{
+  height: 150px;
+  overflow: scroll;
 }
 </style>
