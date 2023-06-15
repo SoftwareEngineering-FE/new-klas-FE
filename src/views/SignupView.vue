@@ -40,16 +40,12 @@ const goLogin = async () => {
       alert(err.response.data.message);
     });
 
-  // router.push('/');
 };
 </script>
 <template>
   <div class="container flex flex-center column">
     <q-img src="/svg/logo.svg" width="140px" />
-    <!-- <div class="q-gutter-sm color-white">
-      <q-radio color="white" dark left-label v-model="userType" val="학생" label="학생" />
-      <q-radio color="white" dark left-label v-model="userType" val="교수" label="교수" />
-    </div> -->
+
     <q-input
       class="q-mt-md"
       color="kbrown"

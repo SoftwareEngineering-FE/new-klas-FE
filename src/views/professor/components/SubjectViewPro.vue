@@ -27,9 +27,10 @@ const time = ref('');
 const deadline = ref('');
 const className = ref('');
 const content = ref('');
+const subjects = ref<any[]>([]);
 const getData = async () => {
   await axios
-    .get('http://localhost:8080/api/assignment/detail/' + props.id + '/' + login.loginId)
+    .get('http://localhost:8080/professor/read/assignment?postId=' + props.id)
     .then((res) => {
       console.log(res.data);
       title.value = res.data.title;
@@ -38,6 +39,7 @@ const getData = async () => {
       className.value = res.data.className;
       content.value = res.data.content;
       deadline.value = res.data.deadline;
+      subjects.value = res.data.files;
     });
 };
 const deletePost = async () => {
@@ -92,6 +94,34 @@ onMounted(() => {
             label="돌아가기"
           />
         </div>
+        <q-separator></q-separator>
+      </div>
+      <div class="board q-mt-md">
+        <div class="title">제출된 파일</div>
+        <q-separator></q-separator>
+        <table class="q-mb-sm">
+          <colgroup>
+            <col width="10%" />
+            <col width="3%" />
+            <col width="5%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="ths">학번</th>
+              <th class="ths">제목</th>
+              <th class="ths">파일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(subject, index) in subjects" :key="index">
+              <td>{{ subject.studentId }}</td>
+              <td>{{ subject.title }}</td>
+              <td>
+                <a :href="subject.link">{{ subject.fileName }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -131,5 +161,18 @@ onMounted(() => {
 .post-body {
   padding: 20px 15px;
   font-size: 14px;
+}
+table {
+  border-collapse: collapse;
+  border-top: 2px solid gray;
+}
+th {
+  background: #efe3e3;
+}
+td {
+  text-align: center;
+}
+.ths {
+  border-bottom: 1px solid gray;
 }
 </style>
